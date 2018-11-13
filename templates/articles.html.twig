@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List Of Articles{% endblock %}
+
+ {% block stylesheets %}
+     <link href="{{ asset('css/listOfArticles.css') }}" rel="stylesheet" />
+     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ {% endblock %}
+{% block body %}
+    {% block header %}
+        <div id="header">
+            <a href="{{ path('app_logout') }}" class="logout">Logout</a>
+            <a href="{{ path('add_article') }}" class="addArticle">Add a new Article</a>
+        </div>
+    {% endblock %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Text</th>
+        </tr>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.name }}</td>
+                <td>{{ article.text | title}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

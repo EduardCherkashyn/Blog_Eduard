@@ -1,0 +1,15 @@
+{% extends 'form/registration.html.twig' %}
+{% block title %}Add a new Article{% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+    <link href="{{ asset('css/listOfArticles.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block body %}
+    {% block header %}
+        <header id="header">
+            <a href="{{ path('app_logout') }}" class="logout">Logout</a>
+            <a href="{{ path('articles_list') }}" class="articlesList">List of Articles</a>
+        </header>
+     {% endblock %}
+    {{ parent() }}
+{% endblock %}
