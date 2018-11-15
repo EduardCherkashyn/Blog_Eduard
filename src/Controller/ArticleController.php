@@ -17,9 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/user/addArticle", name="add_article")
+     * @Route("/user/articles/add", name="add_article")
      */
-    public function addArticleAction(Request $request)
+    public function addAction(Request $request)
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -29,16 +29,16 @@ class ArticleController extends AbstractController
             $em=$this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('show_articles');
         }
         return $this->render('form/addArticle.html.twig', [
             'registration_form' => $form->createView()
         ]);
     }
     /**
-     * @Route("/showArticles", name="articles_list")
+     * @Route("/user/articles/show", name="show_articles")
      */
-    public function showArticlesAction()
+    public function showAction()
     {
         $articles = $this->getDoctrine()
             ->getRepository(Article::class)

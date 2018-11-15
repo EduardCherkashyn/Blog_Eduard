@@ -47,20 +47,21 @@ class UserControllerTest extends WebTestCase
         $crawler = $client->submit($form);
         $this->assertTrue($client->getResponse()->isRedirect());
 
+
     }
 
-    public function testLoginForm()
-    {
-       $client = static::createClient();
-        $crawler = $client->request('GET', '/login');
-        echo $client->getRequest()->getUri();
-
-        $form = $crawler->selectButton('Submit')->form(array(
-            'email' => 'edikcherkashyn@ukr.net',
-            'password' => '12345',
-        ),'POST');
-        $crawler = $client->submit($form);
-        $this->assertTrue($client->getResponse()->isRedirect());
-    }
+//    public function testLoginForm()
+//    {
+//       $client = static::createClient();
+//        $crawler = $client->request('GET', '/login');
+//        echo $client->getRequest()->getUri();
+//
+//        $form = $crawler->selectButton('Submit')->form(array(
+//            'email' => 'edikcherkashyn@ukr.net',
+//            'password' => '12345',
+//        ),'POST');
+//        $crawler = $client->submit($form);
+//        $this->assertTrue($client->getResponse()->isRedirect());
+//    }
 
 }
