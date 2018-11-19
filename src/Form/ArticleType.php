@@ -14,12 +14,12 @@ class ArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',TextType::class, [
+            ->add('name', TextType::class, [
                 'attr'=>[
                     'placeholder'=>'Enter the name for the Article',
                     'class'=>'custom_class'
                 ]])
-            ->add('text',TextareaType::class, [
+            ->add('text', TextareaType::class, [
                 'attr'=>[
                     'placeholder'=>'Enter some text here',
                     'class'=>'text_class'

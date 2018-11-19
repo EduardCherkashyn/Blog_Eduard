@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Form\RegistrationType;
+use App\Services\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,20 +18,18 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
-    private $passwordEncoder;
     /**
      * @Route("/registration", name="registration")
      */
-    public function registrationAction(Request $request)
+    public function registrationAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()&& $form->isValid()) {
-            $password = $form["password"]->getData();
-            $encodedPassword = $this->passwordEncoder->encodePassword($user, $password);
-            $user->setPassword($encodedPassword);
+            $password = new UserService($encoder);
+            $password->encodePassword($user);
             $em=$this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -40,10 +39,4 @@ class UserController extends AbstractController
             'registration_form' => $form->createView()
         ]);
     }
-
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $this->passwordEncoder = $passwordEncoder;
-    }
-
 }

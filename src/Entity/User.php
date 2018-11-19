@@ -36,9 +36,6 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(min=6)
-     * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private $password;
@@ -48,6 +45,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=6)
+     * @var string The hashed password
+     * @var (type="string", length=255)
+     */
+    public $plainpassword;
+
+
 
     public function getId(): ?int
     {
@@ -137,5 +144,10 @@ class User implements UserInterface
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getPlainpassword(): ?string
+    {
+        return $this->plainpassword;
     }
 }

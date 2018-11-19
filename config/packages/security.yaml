@@ -16,12 +16,15 @@ security:
             security: false
         main:
             anonymous: true
+
+            logout:
+                path: /logout
+
+
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
 
-            logout:
-                path: app_logout
 
              #activate different ways to authenticate
 
@@ -36,3 +39,22 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_USER }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

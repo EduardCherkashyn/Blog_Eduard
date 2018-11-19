@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Article
 {
     /**
+     * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
@@ -21,12 +22,14 @@ class Article
     private $id;
 
     /**
+     * @var string
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $text;
 
     /**
+     * @var string
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255, unique=true)
      */

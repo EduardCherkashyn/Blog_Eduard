@@ -44,11 +44,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
-        $credentials = [
-            'email' => $request->request->get('email'),
-            'password' => $request->request->get('password'),
-            'csrf_token' => $request->request->get('_csrf_token'),
-        ];
+        $credentials = $request->request->get('login');
+
         $request->getSession()->set(
             Security::LAST_USERNAME,
             $credentials['email']
@@ -86,7 +83,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         // For example : return new RedirectResponse($this->router->generate('some_route'));
-        return new RedirectResponse($this->router->generate('show_articles'));    }
+        return new RedirectResponse($this->router->generate('show_articles'));
+    }
 
     protected function getLoginUrl()
     {

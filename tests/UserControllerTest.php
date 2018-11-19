@@ -8,13 +8,10 @@
 
 namespace App\Tests\Appbundle\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
 
 class UserControllerTest extends WebTestCase
 {
-
     public function testRegistrationPage()
     {
         $client = static::createClient();
@@ -22,33 +19,31 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertGreaterThan(
             0,
-            $crawler->filter('html:contains("Email")')->count());
+            $crawler->filter('html:contains("Email")')->count()
+        );
         $this->assertGreaterThan(
             0,
-            $crawler->filter('html:contains("Name")')->count());
+            $crawler->filter('html:contains("Name")')->count()
+        );
         $this->assertGreaterThan(
             0,
-            $crawler->filter('html:contains("Password")')->count());
-        $this->assertGreaterThan(
-            0,
-            $crawler->filter('html:contains("Repeat Password")')->count());
-    }
-
-    public function testFormSubmission()
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/registration');
-        $crawler->selectButton('Submit');
-        $form = $crawler->selectButton('Submit')->form();
-        $form['registration[email]'] = 'lllucas1@ukr.net';
-        $form['registration[name]'] = 'Lucas';
-        $form['registration[password][first]'] = '12345';
-        $form['registration[password][second]'] = '12345';
-        $crawler = $client->submit($form);
-        $this->assertTrue($client->getResponse()->isRedirect());
-
+            $crawler->filter('html:contains("Password")')->count()
+        );
 
     }
+
+//    public function testFormSubmission()
+//    {
+//        $client = static::createClient();
+//        $crawler = $client->request('GET', '/registration');
+//        $client->followRedirects();
+//        $form = $crawler->selectButton('Submit')->form();
+//        $form['registration[email]']->setValue( 'lllucas1@ukr.net');
+//        $form['registration[name]']->setValue( 'Lucas');
+//        $form['registration[plainpassword]']->setValue('1234567');
+//        $crawler = $client->submit($form);
+//        $this->assertTrue($client->getResponse()->isRedirect());
+//    }
 
 //    public function testLoginForm()
 //    {
@@ -57,11 +52,10 @@ class UserControllerTest extends WebTestCase
 //        echo $client->getRequest()->getUri();
 //
 //        $form = $crawler->selectButton('Submit')->form(array(
-//            'email' => 'edikcherkashyn@ukr.net',
-//            'password' => '12345',
+//            'login[email]' => 'edikcherkashyn@ukr.net',
+//            'login[password]' => '12345',
 //        ),'POST');
 //        $crawler = $client->submit($form);
 //        $this->assertTrue($client->getResponse()->isRedirect());
 //    }
-
 }

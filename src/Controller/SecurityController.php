@@ -14,7 +14,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/login", name="app_login")
      */
-    public function login(Request $request,AuthenticationUtils $authenticationUtils): Response
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -23,7 +23,7 @@ class SecurityController extends AbstractController
 
         $form = $this->createForm(LoginType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form->isValid()){
+        if ($form->isSubmitted()&& $form->isValid()) {
             return $this->redirectToRoute('show_articles');
         }
 
