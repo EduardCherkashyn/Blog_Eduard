@@ -26,7 +26,6 @@ class UserController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted()&& $form->isValid()) {
             $password = new UserService($encoder);
             $password->encodePassword($user);
