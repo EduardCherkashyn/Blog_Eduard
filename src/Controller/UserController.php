@@ -21,14 +21,14 @@ class UserController extends AbstractController
     /**
      * @Route("/registration", name="registration")
      */
-    public function registrationAction(Request $request,EventDispatcherInterface $dispatcher)
+    public function registrationAction(Request $request, EventDispatcherInterface $dispatcher)
     {
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted()&& $form->isValid()) {
             $event = new EncodePasswordEvent($user);
-            $dispatcher->dispatch(EncodePasswordEvent::NAME,$event);
+            $dispatcher->dispatch(EncodePasswordEvent::NAME, $event);
             $em=$this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();

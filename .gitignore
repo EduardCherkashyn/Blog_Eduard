@@ -16,6 +16,7 @@
 ###< symfony/web-server-bundle ###
 .env
 .env.dist
+.env.test
 ###> phpunit/phpunit ###
 /phpunit.xml
 ###< phpunit/phpunit ###

@@ -8,7 +8,6 @@
 
 namespace App\Event;
 
-
 use App\Entity\User;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -30,5 +29,4 @@ class EncodePasswordEvent extends Event
     {
         return $this->user;
     }
-
 }

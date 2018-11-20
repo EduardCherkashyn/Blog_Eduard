@@ -8,8 +8,6 @@
 
 namespace App\Event;
 
-
-use App\Services\UserService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -34,15 +32,16 @@ class EncodePasswordSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-      return [
+        return [
           EncodePasswordEvent::NAME => 'onEncodePassword'
       ];
     }
 
     public function onEncodePassword(EncodePasswordEvent $event)
     {
-        $password = new UserService($this->passwordEncoder);
         $user = $event->getUser();
-        $password->encodePassword($user);
+        $plainPassword = $user->getPlainpassword();
+        $encoded = $this->passwordEncoder->encodePassword($user, $plainPassword);
+        $user->setPassword($encoded);
     }
 }

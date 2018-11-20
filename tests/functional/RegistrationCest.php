@@ -15,12 +15,11 @@ class RegistrationCest
         $I->fillField('registration[plainpassword]', 'kitten');
         $I->click('Submit');
         $I->see('Please sign in', 'h1');
-        $I->fillField('login[email]','edikcherkashyn@ukr.net');
-        $I->fillField('login[password]','12345');
+        $I->fillField('login[email]', 'edikcherkashyn@ukr.net');
+        $I->fillField('login[password]', '12345');
         $I->click('Submit');
-        $I->see('Add a new Article','a');
+        $I->see('Add a new Article', 'a');
         $I->click(['class' => 'addArticle']);
-        $I->see('List of Articles','a');
-
+        $I->see('List of Articles', 'a');
     }
 }
