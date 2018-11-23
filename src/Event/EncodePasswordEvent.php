@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: eduardcherkashyn
  * Date: 11/19/18
- * Time: 2:46 PM
+ * Time: 2:46 PM.
  */
 
 namespace App\Event;
@@ -16,7 +16,7 @@ class EncodePasswordEvent extends Event
     const NAME = 'encode.password';
 
     /**
-     * @var User $user
+     * @var User
      */
     protected $user;
 

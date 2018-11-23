@@ -15,22 +15,22 @@ class LoginType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-            'attr'=>[
-                'placeholder'=>'Email',
-                'class'=>'custom_class',
-                'class'=> 'form-control',
-                'id'=>'inputEmail',
+            'attr' => [
+                'placeholder' => 'Email',
+                'class' => 'custom_class',
+                'class' => 'form-control',
+                'id' => 'inputEmail',
                 'required' => true,
-                'autofocus' =>true,
-            ]])
+                'autofocus' => true,
+            ], ])
             ->add('password', PasswordType::class, [
-            'attr'=>[
-                'placeholder'=>'Password',
-                'class'=>'custom_class',
-                'class'=>'form-control',
-                'id'=>'inputPassword',
+            'attr' => [
+                'placeholder' => 'Password',
+                'class' => 'custom_class',
+                'class' => 'form-control',
+                'id' => 'inputPassword',
                 'required' => true,
-            ]])
+            ], ])
         ;
     }
 
@@ -38,11 +38,10 @@ class LoginType extends AbstractType
     {
         $resolver->setDefaults([
             'attr' => ['novalidate' => 'novalidate'],
-            'data_class'      => User::class,
+            'data_class' => User::class,
             'csrf_protection' => true,
             'csrf_field_name' => 'csrf_token',
-            'csrf_token_id'   => 'authenticate',
-
+            'csrf_token_id' => 'authenticate',
         ]);
     }
 }
