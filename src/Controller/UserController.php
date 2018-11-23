@@ -26,12 +26,13 @@ class UserController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $event = new EncodePasswordEvent($user);
             $dispatcher->dispatch(EncodePasswordEvent::NAME, $event);
             $em=$this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
             return $this->redirectToRoute('app_login');
         }
         return $this->render('form/registration.html.twig', [
