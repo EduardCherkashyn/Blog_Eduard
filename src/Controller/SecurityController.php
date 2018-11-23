@@ -23,14 +23,14 @@ class SecurityController extends AbstractController
 
         $form = $this->createForm(LoginType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()&& $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             return $this->redirectToRoute('show_articles');
         }
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
-            'login_form' => $form->createView()
+            'login_form' => $form->createView(),
         ]);
     }
 }

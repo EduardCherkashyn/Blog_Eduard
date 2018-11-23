@@ -49,12 +49,11 @@ class User implements UserInterface
     /**
      * @Assert\NotBlank()
      * @Assert\Length(min=6)
-     * @var string The hashed password
+     *
+     * @var string          The hashed password
      * @var (type="string", length=255)
      */
     public $plainpassword;
-
-
 
     public function getId(): ?int
     {

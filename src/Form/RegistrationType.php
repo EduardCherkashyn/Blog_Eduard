@@ -16,27 +16,28 @@ class RegistrationType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'attr'=>[
-                    'placeholder'=>'Enter your email',
-                    'class'=>'custom_class'
-                ]])
+                'attr' => [
+                    'placeholder' => 'Enter your email',
+                    'class' => 'custom_class',
+                ], ])
             ->add('name', TextType::class, [
-                'attr'=>[
-                    'placeholder'=>'Enter your name',
-                    'class'=>'custom_class'
-                ]])
+                'attr' => [
+                    'placeholder' => 'Enter your name',
+                    'class' => 'custom_class',
+                ], ])
             ->add('plainpassword', PasswordType::class, [
-                'attr'=>[
-                    'placeholder'=>'Enter your password',
-                    'class'=>'custom_class'
-            ]])
+                'attr' => [
+                    'placeholder' => 'Enter your password',
+                    'class' => 'custom_class',
+            ], ])
         ;
     }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'attr' => ['novalidate' => 'novalidate']
+            'attr' => ['novalidate' => 'novalidate'],
         ]);
     }
 }

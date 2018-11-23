@@ -15,15 +15,15 @@ class ArticleType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'attr'=>[
-                    'placeholder'=>'Enter the name for the Article',
-                    'class'=>'custom_class'
-                ]])
+                'attr' => [
+                    'placeholder' => 'Enter the name for the Article',
+                    'class' => 'custom_class',
+                ], ])
             ->add('text', TextareaType::class, [
-                'attr'=>[
-                    'placeholder'=>'Enter some text here',
-                    'class'=>'text_class'
-                ]])
+                'attr' => [
+                    'placeholder' => 'Enter some text here',
+                    'class' => 'text_class',
+                ], ])
         ;
     }
 
@@ -31,7 +31,7 @@ class ArticleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Article::class,
-            'attr' => ['novalidate' => 'novalidate']
+            'attr' => ['novalidate' => 'novalidate'],
         ]);
     }
 }

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: eduardcherkashyn
  * Date: 11/19/18
- * Time: 3:01 PM
+ * Time: 3:01 PM.
  */
 
 namespace App\Event;
@@ -33,7 +33,7 @@ class EncodePasswordSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-          EncodePasswordEvent::NAME => 'onEncodePassword'
+          EncodePasswordEvent::NAME => 'onEncodePassword',
       ];
     }
 
