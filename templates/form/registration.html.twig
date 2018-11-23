@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registration{% endblock %}
+
+ {% block stylesheets %}
+     <link href="{{ asset('css/registrationForm.css') }}" rel="stylesheet" />
+
+     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ {% endblock %}
+
+{% block body %}
+    {{ form_start (registration_form,{'attr':{'id':'custom_post_form'}})}}
+    {{ form_row(registration_form.email) }}
+    {{ form_row(registration_form.name) }}
+    {{ form_label(registration_form.plainpassword,'Password') }}
+    {{ form_widget(registration_form.plainpassword) }}
+    <input type="submit" class="btn-success" value="Submit" name="Submit" />
+    {{ form_end (registration_form)}}
+{% endblock %}
