@@ -18,18 +18,18 @@ class RegistrationType extends AbstractType
             ->add('email', EmailType::class, [
                 'attr' => [
                     'placeholder' => 'Enter your email',
-                    'class' => 'custom_class',
+                    'class' => 'form-control',
                 ], ])
             ->add('name', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Enter your name',
-                    'class' => 'custom_class',
+                    'class' => 'form-control',
                 ], ])
             ->add('plainpassword', PasswordType::class, [
                 'attr' => [
                     'placeholder' => 'Enter your password',
-                    'class' => 'custom_class',
-            ], ])
+                    'class' => 'form-control',
+                ], ])
         ;
     }
 

@@ -8,9 +8,10 @@
 {% endblock %}
 
 {% block body %}
+    <div class="container">
         {% block header %}
             <div id="header">
-            <a href="{{ path('registration') }}" class="registration">Registration</a>
+            <a href="{{ path('registration') }}" class="btn btn-primary btn-lg btn-block">Registration</a>
             </div>
         {% endblock %}
 
@@ -25,4 +26,5 @@
     {{ form_widget(login_form)}}
     <input type="submit" class="btn-success" value="Submit" name="Submit" />
     {{ form_end (login_form)}}
+    </div>
 {% endblock %}
