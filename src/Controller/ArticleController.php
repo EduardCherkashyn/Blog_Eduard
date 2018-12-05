@@ -78,12 +78,12 @@ class ArticleController extends Controller
          * @var User $user
          */
         $user = $this->getUser();
-        $user->addComment($comment);
-        $article->addComment($comment);
         $amountOfLikes = LikeService::countLikes($article);
         $form = $this->createForm(CommentType::class,$comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
+            $user->addComment($comment);
+            $article->addComment($comment);
             $comment->setDate(new\DateTime('now'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
