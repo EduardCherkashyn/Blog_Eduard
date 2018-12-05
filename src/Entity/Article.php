@@ -46,7 +46,7 @@ class Article
     private $user;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $text;
 
@@ -54,6 +54,11 @@ class Article
      * @ORM\OneToMany(targetEntity="App\Entity\UserLike", mappedBy="article")
      */
     private $userLikes;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $textToPublish;
 
     public function __construct()
     {
@@ -190,6 +195,18 @@ class Article
                 $userLike->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTextToPublish(): ?string
+    {
+        return $this->textToPublish;
+    }
+
+    public function setTextToPublish(?string $textToPublish): self
+    {
+        $this->textToPublish = $textToPublish;
 
         return $this;
     }

@@ -53,7 +53,8 @@ class ArticleController extends Controller
     public function showAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $query = $em->getRepository(Article::class)->findAll();
+        $queryNotSorted = $em->getRepository(Article::class)->findAll();
+        $query = array_reverse($queryNotSorted);
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(

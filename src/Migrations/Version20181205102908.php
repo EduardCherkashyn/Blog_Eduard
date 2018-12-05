@@ -8,14 +8,14 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20181203182330 extends AbstractMigration
+final class Version20181205102908 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user_like ADD like_on TINYINT(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE Article CHANGE text text LONGTEXT DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -23,6 +23,6 @@ final class Version20181203182330 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user_like DROP like_on');
+        $this->addSql('ALTER TABLE Article CHANGE text text LONGTEXT NOT NULL COLLATE utf8mb4_unicode_ci');
     }
 }
