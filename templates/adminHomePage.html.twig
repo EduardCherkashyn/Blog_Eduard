@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block title %}Admin Page{% endblock %}
+{% block body %}
+    <div class="container">
+         <table class="table table-hover">
+             <tr>
+                 <th scope="col">User name</th>
+                 <th scope="col">Email</th>
+             </tr>
+             {% for user in users %}
+                 <tr scope="row">
+                     <td><a href="{{ path('user_info',({'id':user.id}))}}" class="btn btn-outline-warning" role="button">{{ user.name }}</a></td>
+                     <td>{{ user.email }}</td>
+                 </tr>
+             {% endfor %}
+         </table>
+    </div>
+{% endblock %}

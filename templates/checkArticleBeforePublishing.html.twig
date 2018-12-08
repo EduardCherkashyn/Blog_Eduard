@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block title %}Check all Unpublished Articles{% endblock %}
+{% block body %}
+<div class="container">
+    <ul class="list-group list-group-flush">
+        {% for article in articles %}
+            <h2>Article:</h2>
+            <li class="list-group-item">{{ article.name }}</li>
+            <li class="list-group-item">{{ article.textToPublish }}</li>
+            <li class="list-group-item">Publisher:{{ article.user.name }}</li>
+            <h2>Action:</h2>
+            <li class="list-group-item"><a href="{{ path('article_publish',({'id':article.id})) }}" class="btn btn-primary btn-lg btn-block">Publish</a></li>
+            <li class="list-group-item"><a href="{{ path('article_delete',({'id':article.id})) }}" class="btn btn-primary btn-lg btn-block">Delete</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

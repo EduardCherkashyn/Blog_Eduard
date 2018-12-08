@@ -19,7 +19,7 @@ class ArticleType extends AbstractType
                     'placeholder' => 'Enter the name for the Article',
                     'class' => 'custom_class',
                 ], ])
-            ->add('text', TextareaType::class, [
+            ->add('textToPublish', TextareaType::class, [
                 'attr' => [
                     'placeholder' => 'Enter some text here',
                     'class' => 'text_class',
