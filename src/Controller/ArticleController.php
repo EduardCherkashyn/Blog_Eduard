@@ -14,7 +14,9 @@ use App\Entity\User;
 use App\Entity\UserLike;
 use App\Form\ArticleType;
 use App\Form\CommentType;
+use App\Services\ArticlesSorterService;
 use App\Services\LikeService;
+use App\Services\PermissionForAddingArticleService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,13 +50,18 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/user/articles/show", name="show_articles")
+     * @Route("/reader/articles/show", name="show_articles")
      */
-    public function showAction(Request $request)
+    public function showAction(Request $request, PermissionForAddingArticleService $permissionForAddingArticleService, ArticlesSorterService $articlesSorterService)
     {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        $permmison = $permissionForAddingArticleService->ifAdminRole($user);
         $em = $this->getDoctrine()->getManager();
-        $queryNotSorted = $em->getRepository(Article::class)->findAll();
-        $query = array_reverse($queryNotSorted);
+        $queryNotSortedArray = $em->getRepository(Article::class)->findAll();
+        $query = $articlesSorterService->index($queryNotSortedArray);
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -64,21 +71,24 @@ class ArticleController extends Controller
         );
 
         return $this->render('articles.html.twig', [
-            'articles' => $pagination]);
+            'articles' => $pagination,
+            'user' => $user,
+            'link' => $permmison
+        ]);
 
     }
 
     /**
-     * @Route("/user/articles/comment/{id}", name="article_comment")
+     * @Route("/reader/articles/comment/{id}", name="article_comment")
      */
-    public function commentAction(Request $request,Article $article)
+    public function commentAction(Request $request, Article $article, LikeService $like)
     {
         $comment = new Comment();
         /**
          * @var User $user
          */
         $user = $this->getUser();
-        $amountOfLikes = LikeService::countLikes($article);
+        $amountOfLikes = $like->countLikes($article);
         $form = $this->createForm(CommentType::class,$comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
@@ -101,18 +111,34 @@ class ArticleController extends Controller
     }
 
     /**
-     * @Route("/user/article/{id}", name="article_likes", methods={"POST"})
+     * @Route("/reader/article/{id}", name="article_likes", methods={"POST"})
      */
-    public function likesAction(Article $article)
+    public function likesAction(Article $article, LikeService $like)
     {
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
-        $userLike = LikeService::ajaxRequest($user,$article);
+        $userLike = $like->ajaxRequest($user, $article);
         $em = $this->getDoctrine()->getManager();
         $em->persist($userLike);
         $em->flush();
         $em->refresh($article);
-        $amountOfLikes = LikeService::countLikes($article);
+        $amountOfLikes = $like->countLikes($article);
 
         return new JsonResponse(['likes' => $amountOfLikes ]);
+    }
+
+    /**
+     * @Route("/reader/askForUserRole/{id}", name="role_permissions")
+     */
+    public function askForRoleUser(User $user)
+    {
+        $user->setPermissionRequest(true);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('show_articles');
     }
 }

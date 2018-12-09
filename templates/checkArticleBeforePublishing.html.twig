@@ -5,7 +5,7 @@
     <ul class="list-group list-group-flush">
         {% for article in articles %}
             <h2>Article:</h2>
-            <li class="list-group-item">{{ article.name }}</li>
+            <li class="list-group-item">{{ article.nameToPublish }}</li>
             <li class="list-group-item">{{ article.textToPublish }}</li>
             <li class="list-group-item">Publisher:{{ article.user.name }}</li>
             <h2>Action:</h2>

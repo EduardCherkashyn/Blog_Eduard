@@ -8,9 +8,15 @@
 {% block body %}
     <div class="container">
     {% block header %}
+        <blockquote class="blockquote text-center">
+       <p class="h1">Welcome To My Blog</p>
+        </blockquote>
         <div id="header">
             <a href="{{ path('app_logout') }}" class="btn btn-primary btn-lg btn-block">Logout</a>
             <a href="{{ path('add_article') }}" class="btn btn-primary btn-lg btn-block">Add a new Article</a>
+           {% if link == null %}
+            <a href="{{ path('role_permissions',{'id':user.id}) }}" class="btn btn-primary btn-lg btn-block">Apply for Permissions to add Articles</a>
+            {% endif %}
         </div>
     {% endblock %}
     <div class="list-group">

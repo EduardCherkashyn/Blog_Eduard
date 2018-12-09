@@ -9,9 +9,14 @@
         {% for role in user.roles %}
             <li class="list-group-item">{{role}}</li>
         {% endfor %}
+        {% if user.permissionRequest %}
+        <li class="list-group-item">Please add me a User Role</li>
+        {% endif %}
+        <a href="{{ path('add_user_role',({'id':user.id})) }}" class="btn btn-primary btn-lg btn-block">Add Role User</a>
+        <a href="{{ path('remove_user_role',({'id':user.id})) }}" class="btn btn-primary btn-lg btn-block">Remove Role User</a>
         <h2>Articles published:</h2>
     {% for article in user.articles %}
-        <li class="list-group-item"><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#{{ article.id }}" aria-expanded="false" aria-controls="{{ article.id }}">
+        <li class="list-group-item"><button  type="button" data-toggle="collapse" data-target="#{{ article.id }}" aria-expanded="false" aria-controls="{{ article.id }}" class="btn btn-warning btn-lg btn-block">
             {{ article.name }}
            </button></li>
         <div class="collapse" id="{{ article.id }}">

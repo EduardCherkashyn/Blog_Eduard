@@ -65,6 +65,8 @@ class AdminController extends Controller
     {
         $article->setText($article->getTextToPublish());
         $article->setTextToPublish(null);
+        $article->setName($article->getNameToPublish());
+        $article->setTextToPublish(null);
         $em = $this->getDoctrine()->getManager();
         $em->persist($article);
         $em->flush();
@@ -85,6 +87,35 @@ class AdminController extends Controller
         return $this->redirectToRoute('text_check');
     }
 
+    /**
+     * @Route("/admin/addUserRole/{id}", name="add_user_role")
+     */
+    public function addRoleAction(User $user){
+        $user->setRoles(['ROLE_USER']);
+        $user->setPermissionRequest(false);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
 
+        return $this->redirectToRoute('user_info',['id' =>$user->getId()]);
+    }
 
+    /**
+     * @Route("/admin/removeUserRole/{id}", name="remove_user_role")
+     */
+    public function removeRoleAction(User $user){
+        $user->setRoles(['ROLE_READER']);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('user_info',['id' =>$user->getId()]);
+    }
+    /**
+     * @Route("/admin", name="admin_page")
+     */
+    public function menuAction()
+    {
+       return $this->render('adminMenuPage.html.twig');
+    }
 }

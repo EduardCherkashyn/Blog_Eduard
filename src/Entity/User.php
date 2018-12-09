@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ORM\Table(name="User")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -21,7 +22,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @Assert\NotBlank()
@@ -30,23 +31,23 @@ class User implements UserInterface
      *     message = "The email '{{ value }}' is not a valid email."
      * )
      */
-    private $email;
+    protected $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    protected $roles = [];
 
     /**
      * @ORM\Column(type="string")
      */
-    private $password;
+    protected $password;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    protected $name;
 
     /**
      * @Assert\NotBlank()
@@ -55,22 +56,27 @@ class User implements UserInterface
      * @var string          The hashed password
      * @var (type="string", length=255)
      */
-    public $plainpassword;
+    protected $plainpassword;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="user")
      */
-    private $articles;
+    protected $articles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserLike", mappedBy="user")
      */
-    private $userlike;
+    protected $userlike;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
      */
-    private $comments;
+    protected $comments;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $permissionRequest;
 
 
     public function __construct()
@@ -114,7 +120,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_READER';
 
         return array_unique($roles);
     }
@@ -264,6 +270,18 @@ class User implements UserInterface
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPermissionRequest(): ?bool
+    {
+        return $this->permissionRequest;
+    }
+
+    public function setPermissionRequest(?bool $permissionRequest): self
+    {
+        $this->permissionRequest = $permissionRequest;
 
         return $this;
     }

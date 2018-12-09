@@ -15,7 +15,7 @@ use App\Entity\UserLike;
 
 class LikeService
 {
-    public static function countLikes(Article $article)
+    public function countLikes(Article $article) :int
     {
         $allLikes = $article->getUserLikes();
         $amountOfLikes = count($allLikes);
@@ -28,18 +28,18 @@ class LikeService
         return $amountOfLikes;
     }
 
-    public static function ajaxRequest(User $user,Article $article)
+    public function ajaxRequest(User $user,Article $article) :UserLike
     {
+        $data = null;
         $allUserLikes = $user->getUserlike();
         foreach($allUserLikes as $item){
             if($item->getArticle() === $article){
                 $data = $item;
                 break;
             }
-            $data = null;
         }
-        $like = $data;
-        if($like == null) {
+        $likes = $data;
+        if($likes == null) {
             $userLike = new UserLike();
             $userLike->setArticle($article);
             $userLike->setUser($user);
@@ -47,13 +47,13 @@ class LikeService
 
             return $userLike;
         }
-        if($like->getLikeOn() == null){
-            $like->setLikeOn(true);
+        if($likes->getLikeOn() == null){
+            $likes->setLikeOn(true);
         }
         else{
-            $like->setLikeOn(false);
+            $likes->setLikeOn(false);
         }
 
-        return $like;
+        return $likes;
     }
 }
