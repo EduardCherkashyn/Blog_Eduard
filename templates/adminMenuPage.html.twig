@@ -2,6 +2,9 @@
 {% block title %}Admin menu{% endblock %}
 {% block body %}
 <div class="container">
+    <blockquote class="blockquote text-center">
+        <p class="h1">Welcome Admin</p>
+    </blockquote>
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><a href="{{ path('admin_home') }}" class="btn btn-primary btn-lg btn-block">List of Users</a></li>
         <li class="list-group-item"><a href="{{ path('text_check') }}" class="btn btn-primary btn-lg btn-block">Check Articles for publishing</a></li>

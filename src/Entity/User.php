@@ -22,7 +22,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
      * @Assert\NotBlank()
@@ -31,23 +31,23 @@ class User implements UserInterface
      *     message = "The email '{{ value }}' is not a valid email."
      * )
      */
-    protected $email;
+    private $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    protected $roles = [];
+    private $roles = [];
 
     /**
      * @ORM\Column(type="string")
      */
-    protected $password;
+    private $password;
 
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
-    protected $name;
+    private $name;
 
     /**
      * @Assert\NotBlank()
@@ -56,27 +56,27 @@ class User implements UserInterface
      * @var string          The hashed password
      * @var (type="string", length=255)
      */
-    protected $plainpassword;
+    private $plainpassword;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="user")
      */
-    protected $articles;
+    private $articles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserLike", mappedBy="user")
      */
-    protected $userlike;
+    private $userlike;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
      */
-    protected $comments;
+    private $comments;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $permissionRequest;
+    private $permissionRequest;
 
 
     public function __construct()
