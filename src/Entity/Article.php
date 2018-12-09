@@ -25,8 +25,7 @@ class Article
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $name;
 
@@ -59,6 +58,11 @@ class Article
      * @ORM\Column(type="text", nullable=true)
      */
     private $textToPublish;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nameToPublish;
 
     public function __construct()
     {
@@ -207,6 +211,18 @@ class Article
     public function setTextToPublish(?string $textToPublish): self
     {
         $this->textToPublish = $textToPublish;
+
+        return $this;
+    }
+
+    public function getNameToPublish(): ?string
+    {
+        return $this->nameToPublish;
+    }
+
+    public function setNameToPublish(?string $nameToPublish): self
+    {
+        $this->nameToPublish = $nameToPublish;
 
         return $this;
     }

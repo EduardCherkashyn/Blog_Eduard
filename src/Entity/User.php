@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ORM\Table(name="User")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -55,7 +56,7 @@ class User implements UserInterface
      * @var string          The hashed password
      * @var (type="string", length=255)
      */
-    public $plainpassword;
+    private $plainpassword;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="user")
@@ -71,6 +72,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
      */
     private $comments;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $permissionRequest;
 
 
     public function __construct()
@@ -114,7 +120,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_READER';
 
         return array_unique($roles);
     }
@@ -264,6 +270,18 @@ class User implements UserInterface
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPermissionRequest(): ?bool
+    {
+        return $this->permissionRequest;
+    }
+
+    public function setPermissionRequest(?bool $permissionRequest): self
+    {
+        $this->permissionRequest = $permissionRequest;
 
         return $this;
     }

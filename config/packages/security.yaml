@@ -1,32 +1,31 @@
 security:
-    encoders:
-        App\Entity\User:
-            algorithm: argon2i
-
+     encoders:
+             App\Entity\User:
+                 algorithm: argon2i
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
-    providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
-    firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        main:
-            anonymous: true
+     providers:
+             # used to reload user from session & other features (e.g. switch_user)
+             app_user_provider:
+                 entity:
+                     class: App\Entity\User
+                     property: email
 
-            logout:
-                path: /logout
+     firewalls:
+            dev:
+                 pattern: ^/(_(profiler|wdt)|css|images|js)/
+                 security: false
+            main:
 
-
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
+                anonymous: true
+                logout: true
+                guard:
+                     authenticators:
+                         - App\Security\LoginFormAuthenticator
 
 
-             #activate different ways to authenticate
+     role_hierarchy:
+            ROLE_ADMIN:       ROLE_USER
+            ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]             #activate different ways to authenticate
 
              #http_basic: true
              #https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
@@ -36,10 +35,12 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-    access_control:
+     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_USER }
         - { path: ^/reader, roles: ROLE_READER}
+
+
 
 
 

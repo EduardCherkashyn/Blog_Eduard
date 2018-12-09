@@ -6,11 +6,17 @@
              <tr>
                  <th scope="col">User name</th>
                  <th scope="col">Email</th>
+                 <th scope="col">Applyed For User_Role</th>
              </tr>
              {% for user in users %}
                  <tr scope="row">
                      <td><a href="{{ path('user_info',({'id':user.id}))}}" class="btn btn-outline-warning" role="button">{{ user.name }}</a></td>
                      <td>{{ user.email }}</td>
+                     {% if user.permissionRequest %}
+                         <td class="alert alert-danger" role="alert">Give me Role!!!</td>
+                        {% else %}
+                          <td></td>
+                     {% endif %}
                  </tr>
              {% endfor %}
          </table>

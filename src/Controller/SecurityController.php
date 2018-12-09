@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,5 +32,22 @@ class SecurityController extends AbstractController
             'error' => $error,
             'login_form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/login_success", name="login_success")
+     */
+    public function postLoginRedirectAction()
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        $roles = $user->getRoles();
+        if (in_array('ROLE_ADMIN',$roles)) {
+            return $this->redirectToRoute('admin_page');
+        } else {
+            return $this->redirectToRoute('show_articles');
+        }
     }
 }
