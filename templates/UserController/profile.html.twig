@@ -3,16 +3,16 @@
 {% block body %}
     <div class="container">
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">Name: {{ user.name }}</li>
+            <li class="list-group-item mt-4">Name: {{ user.name }}</li>
             <li class="list-group-item">Email: {{ user.email }}</li>
-            <h3>Roles available:</h3>
+            <h3 class="mt-4">Roles available:</h3>
             {% for role in user.roles %}
                 <li class="list-group-item">{{role}}</li>
             {% endfor %}
             {% if link == null %}
                 <a href="{{ path('role_permissions',{'id':user.id}) }}" class="btn btn-success">Apply for Permissions to add Articles</a>
             {% endif %}
-            <h2>Articles published:</h2>
+            <h2 class="mt-4">Articles published:</h2>
             {% for article in user.articles %}
                 <li class="list-group-item"><button  type="button" data-toggle="collapse" data-target="#{{ article.id }}" aria-expanded="false" aria-controls="{{ article.id }}" class="btn btn-warning btn-lg btn-block">
                         {{ article.name }}
