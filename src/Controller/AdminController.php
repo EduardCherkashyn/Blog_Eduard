@@ -10,22 +10,23 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\User;
-use App\Services\SortUsersService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminController extends Controller
+class AdminController extends AbstractController
 {
     /**
      * @Route("/admin/home", name="admin_home")
      */
     public function indexAction()
     {
+        $admin = true;
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
-        return $this->render('adminHomePage.html.twig',[
-            'users' => $users
+        return $this->render('AdminController/adminHomePage.html.twig',[
+            'users' => $users,
+            'admin' => $admin
         ]);
     }
 
@@ -34,8 +35,11 @@ class AdminController extends Controller
      */
     public function userInfoAction(User $user)
     {
-        return $this->render('userInfo.html.twig',[
-            'user' => $user
+        $admin = true;
+        return $this->render('AdminController/userInfo.html.twig',[
+            'user' => $user,
+            'admin' => $admin,
+
         ]);
     }
 
@@ -44,6 +48,7 @@ class AdminController extends Controller
      */
     public function checkTextForPublishingAction()
     {
+        $admin = true;
         $allArticles = $this->getDoctrine()->getRepository(Article::class)->findAll();
         $articles = [];
         /**
@@ -54,8 +59,9 @@ class AdminController extends Controller
                 $articles[] = $article;
             }
         }
-        return $this->render('checkArticleBeforePublishing.html.twig',[
-            'articles' => $articles
+        return $this->render('AdminController/checkArticleBeforePublishing.html.twig',[
+            'articles' => $articles,
+            'admin' => $admin
         ]);
     }
 
@@ -112,11 +118,5 @@ class AdminController extends Controller
 
         return $this->redirectToRoute('user_info',['id' =>$user->getId()]);
     }
-    /**
-     * @Route("/admin", name="admin_page")
-     */
-    public function menuAction()
-    {
-       return $this->render('adminMenuPage.html.twig');
-    }
+
 }

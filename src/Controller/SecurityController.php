@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/", name="app_login")
      */
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
@@ -45,7 +45,7 @@ class SecurityController extends AbstractController
         $user = $this->getUser();
         $roles = $user->getRoles();
         if (in_array('ROLE_ADMIN',$roles)) {
-            return $this->redirectToRoute('admin_page');
+            return $this->redirectToRoute('admin_home');
         } else {
             return $this->redirectToRoute('show_articles');
         }

@@ -3,28 +3,25 @@
 {% block title %}Log in!{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('css/registrationForm.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    {{ parent() }}
 {% endblock %}
-
+{% block header %}{% endblock %}
 {% block body %}
     <div class="container">
-        {% block header %}
-            <div id="header">
-            <a href="{{ path('registration') }}" class="btn btn-primary btn-lg btn-block">Registration</a>
-            </div>
-        {% endblock %}
-
-    {{ form_start (login_form,{'attr':{'id':'custom_post_form'}})}}
+        <div class="loginForm">
+        {{ form_start (login_form,{'attr':{'id':'custom_post_form'}})}}
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <h1 class="mb-3">Please sign in</h1>
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}">
+        {{ form_label(login_form.email)}}
     {{ form_widget(login_form.email,{'attr':{'value':last_username }}) }}
     {{ form_widget(login_form)}}
-    <input type="submit" class="btn-success" value="Submit" name="Submit" />
-    {{ form_end (login_form)}}
+    <input type="submit" class="btn btn-success mt-4 " value="Submit" name="Submit" />
+        <a href="{{ path('registration') }}" class="btn btn-primary mt-4 ">Registration</a>
+        {{ form_end (login_form)}}
+    </div>
     </div>
 {% endblock %}

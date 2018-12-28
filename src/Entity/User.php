@@ -59,7 +59,7 @@ class User implements UserInterface
     private $plainpassword;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="user", cascade={"all"})
      */
     private $articles;
 
@@ -175,6 +175,15 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @param mixed $plainpassword
+     */
+    public function setPlainpassword($plainpassword): void
+    {
+        $this->plainpassword = $plainpassword;
+    }
+
 
     public function getPlainpassword(): ?string
     {

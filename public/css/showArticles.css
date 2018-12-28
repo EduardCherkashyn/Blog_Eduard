@@ -1,0 +1,19 @@
+.gray{
+    height: 100px;
+    background-color:gray;
+    color: white;
+    text-align: center;
+    margin-top: 60px;
+}
+.yellow{
+    height: 40px;
+    background-color: yellow;
+}
+.gray h1{
+    margin-top: 20px;
+}
+.navigation{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

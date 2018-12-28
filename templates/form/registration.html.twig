@@ -1,15 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Registration{% endblock %}
-
+{% block header %}{% endblock %}
 {% block body %}
     <div class="container">
+        <div class="loginForm">
+            <h1>Registration</h1>
     {{ form_start (registration_form,{'attr':{'id':'custom_post_form'}})}}
     {{ form_row(registration_form.email) }}
     {{ form_row(registration_form.name) }}
     {{ form_label(registration_form.plainpassword,'Password') }}
     {{ form_widget(registration_form.plainpassword) }}
-    <input type="submit" class="btn-success" value="Submit" name="Submit" />
+    <input type="submit" class="btn btn-success mt-3" value="Submit" name="Submit" />
     {{ form_end (registration_form)}}
+        </div>
     </div>
 {% endblock %}

@@ -15,10 +15,9 @@ class LoginType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-            'attr' => [
+                'attr' => [
                 'placeholder' => 'Email',
-                'class' => 'custom_class',
-                'class' => 'form-control',
+                'class' => 'custom_class form-control',
                 'id' => 'inputEmail',
                 'required' => true,
                 'autofocus' => true,
@@ -26,8 +25,7 @@ class LoginType extends AbstractType
             ->add('password', PasswordType::class, [
             'attr' => [
                 'placeholder' => 'Password',
-                'class' => 'custom_class',
-                'class' => 'form-control',
+                'class' => 'custom_class form-control',
                 'id' => 'inputPassword',
                 'required' => true,
             ], ])

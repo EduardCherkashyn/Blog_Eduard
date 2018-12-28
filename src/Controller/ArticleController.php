@@ -10,27 +10,31 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Tag;
 use App\Entity\User;
-use App\Entity\UserLike;
 use App\Form\ArticleType;
 use App\Form\CommentType;
-use App\Services\ArticlesSorterService;
+use App\Services\CheckIfAdmin;
 use App\Services\LikeService;
 use App\Services\PermissionForAddingArticleService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class ArticleController extends Controller
+class ArticleController extends AbstractController
 {
     /**
      * @Route("/user/articles/add", name="add_article")
      */
-    public function addAction(Request $request)
+    public function addAction(Request $request, CheckIfAdmin $checkIfAdmin)
     {
+        $admin = $checkIfAdmin->index($this->getUser());
         $article = new Article();
+        $tag = new Tag();
+        $article->addTag($tag);
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -46,48 +50,60 @@ class ArticleController extends Controller
 
         return $this->render('form/addArticle.html.twig', [
             'registration_form' => $form->createView(),
+            'admin' => $admin
         ]);
     }
 
     /**
      * @Route("/reader/articles/show", name="show_articles")
      */
-    public function showAction(Request $request, PermissionForAddingArticleService $permissionForAddingArticleService, ArticlesSorterService $articlesSorterService)
+    public function showAction(Request $request, PermissionForAddingArticleService $permissionForAddingArticleService, PaginatorInterface $paginator, CheckIfAdmin $checkIfAdmin)
     {
         /**
          * @var User $user
          */
         $user = $this->getUser();
+        $admin = $checkIfAdmin->index($user);
         $permmison = $permissionForAddingArticleService->ifAdminRole($user);
-        $em = $this->getDoctrine()->getManager();
-        $queryNotSortedArray = $em->getRepository(Article::class)->findAll();
-        $query = $articlesSorterService->index($queryNotSortedArray);
-        /* @var $paginator \Knp\Component\Pager\Paginator */
-        $paginator  = $this->get('knp_paginator');
+        $query = $this->getDoctrine()->getRepository(Article::class)->findByApproved();
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
             3
         );
 
-        return $this->render('articles.html.twig', [
+        return $this->render('ArticleController/articles.html.twig', [
             'articles' => $pagination,
             'user' => $user,
-            'link' => $permmison
+            'link' => $permmison,
+            'admin' => $admin
         ]);
 
     }
 
     /**
+     * @Route("/reader", name="home_page")
+     */
+    public function homePageAction(CheckIfAdmin $checkIfAdmin)
+    {
+        $admin = $checkIfAdmin->index($this->getUser());
+        return $this->render('ArticleController/homepage.html.twig',[
+            'admin' => $admin
+        ]);
+    }
+
+
+    /**
      * @Route("/reader/articles/comment/{id}", name="article_comment")
      */
-    public function commentAction(Request $request, Article $article, LikeService $like)
+    public function commentAction(Request $request, Article $article, LikeService $like, CheckIfAdmin $checkIfAdmin)
     {
         $comment = new Comment();
         /**
          * @var User $user
          */
         $user = $this->getUser();
+        $admin = $checkIfAdmin->index($user);
         $amountOfLikes = $like->countLikes($article);
         $form = $this->createForm(CommentType::class,$comment);
         $form->handleRequest($request);
@@ -102,10 +118,11 @@ class ArticleController extends Controller
             $em->flush();
         }
 
-        return $this->render('articleComment.html.twig',[
+        return $this->render('ArticleController/articleComment.html.twig',[
             'article' => $article,
             'comment_form' => $form->createView(),
-            'likes' => $amountOfLikes
+            'likes' => $amountOfLikes,
+            'admin' => $admin
 
         ]);
     }

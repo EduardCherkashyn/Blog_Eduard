@@ -10,6 +10,8 @@ namespace App\Controller;
 
 use App\Event\EncodePasswordEvent;
 use App\Form\RegistrationType;
+use App\Services\CheckIfAdmin;
+use App\Services\PermissionForAddingArticleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +40,22 @@ class UserController extends AbstractController
 
         return $this->render('form/registration.html.twig', [
             'registration_form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/reader/profile", name="user_profile")
+     */
+    public function profileAction(PermissionForAddingArticleService $permissionForAddingArticleService, CheckIfAdmin $checkIfAdmin)
+    {
+        $user = $this->getUser();
+        $admin = $checkIfAdmin->index($user);
+        $permmison = $permissionForAddingArticleService->ifAdminRole($user);
+
+        return $this->render('UserController/profile.html.twig',[
+            'user' => $user,
+            'admin' => $admin,
+            'link' => $permmison,
         ]);
     }
 }

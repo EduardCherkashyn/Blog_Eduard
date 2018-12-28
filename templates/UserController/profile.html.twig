@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+    <div class="container">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Name: {{ user.name }}</li>
+            <li class="list-group-item">Email: {{ user.email }}</li>
+            <h3>Roles available:</h3>
+            {% for role in user.roles %}
+                <li class="list-group-item">{{role}}</li>
+            {% endfor %}
+            {% if link == null %}
+                <a href="{{ path('role_permissions',{'id':user.id}) }}" class="btn btn-success">Apply for Permissions to add Articles</a>
+            {% endif %}
+            <h2>Articles published:</h2>
+            {% for article in user.articles %}
+                <li class="list-group-item"><button  type="button" data-toggle="collapse" data-target="#{{ article.id }}" aria-expanded="false" aria-controls="{{ article.id }}" class="btn btn-warning btn-lg btn-block">
+                        {{ article.name }}
+                    </button></li>
+                <div class="collapse" id="{{ article.id }}">
+                    <div class="card card-body">
+                        <li class="list-group-item">{{ article.text }}</li>
+                    </div>
+                </div>
+            {% endfor %}
+            <h2>Comments:</h2>
+            {% for comment in user.comments %}
+                <li class="list-group-item"><h4>Article name:</h4>{{ comment.article.name }}</li>
+                <li class="list-group-item"><h4>Comment:</h4>{{ comment.comment }}</li>
+                <li class="list-group-item"><h4>Date of publishing:</h4>{{ comment.date|date('Y-m-d H:i:s')}}</li>
+                <li class="list-group-item"><h1></h1></li>
+            {% endfor %}
+            <h2>Liked Articles:</h2>
+            {% for like in user.userlike %}
+                <li class="list-group-item"><h4>Article name:</h4>{{ like.article.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

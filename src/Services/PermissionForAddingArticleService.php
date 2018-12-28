@@ -16,7 +16,11 @@ class PermissionForAddingArticleService
     {
         $roles = $user->getRoles();
         $role = in_array('ROLE_ADMIN',$roles);
+        $roleUser = in_array('ROLE_USER',$roles);
         if($role){
+            $permmison = $user->setPermissionRequest(true);
+        }
+        elseif ($roleUser){
             $permmison = $user->setPermissionRequest(true);
         }
         else {

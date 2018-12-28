@@ -1,0 +1,38 @@
+.navbar-nav{
+    font-size: 20px;
+}
+.image{
+    width:83%;
+    margin: auto;
+}
+
+@font-face{
+    font-family: myFont;
+    src:url("raleway.regular.ttf");
+}
+body{
+    font-family: myFont;
+}
+.loginForm{
+    margin-top: 20%;
+}
+.loginForm label{
+    font-weight: bold;
+    margin:20px 0;
+}
+.loginForm h1{
+    text-align: center;
+    font-weight: bold;
+}
+.dropdown-item:link,.dropdown-item:visited{
+  background-color: #565656;
+    color: white;
+}
+
+.dropdown-item:hover,.dropdown-item:active{
+    color:darkgrey;
+}
+.dropdown-menu{
+    background-color: #565656;
+
+}

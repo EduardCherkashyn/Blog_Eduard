@@ -10,7 +10,7 @@
              </tr>
              {% for user in users %}
                  <tr scope="row">
-                     <td><a href="{{ path('user_info',({'id':user.id}))}}" class="btn btn-outline-warning" role="button">{{ user.name }}</a></td>
+                     <td><a href="{{ path('user_info',({'id':user.id}))}}" class="btn btn-warning w-100" role="button">{{ user.name }}</a></td>
                      <td>{{ user.email }}</td>
                      {% if user.permissionRequest %}
                          <td class="alert alert-danger" role="alert">Give me Role!!!</td>

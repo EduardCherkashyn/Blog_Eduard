@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List Of Articles{% endblock %}
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/showArticles.css') }}">
+{% endblock %}
+{% block body %}
+    <div class="container">
+       <div class="list-group">
+    {% for article in articles %}
+        <div class="gray">
+            <h1>Article</h1>
+        </div>
+            <div class="yellow">
+            </div>
+
+        <a href="{{path('article_comment',({'id':article.id}))}}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ article.name }}</h5>
+            </div>
+            <p class="mb-1">{{ article.text|slice(0, 1000) }}...</p>
+        </a>
+    {% endfor %}
+    </div>
+    <div class="navigation">
+    {{ knp_pagination_render(articles) }}
+    </div>
+    </div>
+{% endblock %}

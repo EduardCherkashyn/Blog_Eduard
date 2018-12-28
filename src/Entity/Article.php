@@ -30,7 +30,7 @@ class Article
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="article")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="article",cascade={"all"})
      */
     private $tags;
 
