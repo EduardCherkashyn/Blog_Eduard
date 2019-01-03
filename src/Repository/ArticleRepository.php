@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Article;
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -21,7 +22,7 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Article[] Returns an array of Article objects
+     * @return Query
      */
     public function findByApproved()
     {
@@ -29,11 +30,8 @@ class ArticleRepository extends ServiceEntityRepository
             ->andWhere('a.approved = :val')
             ->setParameter('val',true)
             ->orderBy('a.id', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
     }
-
-
 
     // /**
     //  * @return Article[] Returns an array of Article objects

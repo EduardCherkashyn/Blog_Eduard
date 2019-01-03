@@ -15,6 +15,7 @@ use App\Entity\User;
 use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Services\CheckIfAdmin;
+use App\Services\GetAllArtFilterTags;
 use App\Services\LikeService;
 use App\Services\PermissionForAddingArticleService;
 use Knp\Component\Pager\PaginatorInterface;
@@ -158,17 +159,19 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/reader/{category}", name="show_category")
+     * @Route("/reader/category/{category}", name="show_category")
      */
-    public function categoryShowAction($category, Request $request, PaginatorInterface $paginator, CheckIfAdmin $checkIfAdmin)
+    public function categoryShowAction($category, Request $request, PaginatorInterface $paginator, CheckIfAdmin $checkIfAdmin, GetAllArtFilterTags $getAllArtFilterTags)
     {
         /**
          * @var User $user
          */
         $user = $this->getUser();
         $admin = $checkIfAdmin->index($user);
-        $query = $this->getDoctrine()->getRepository(Article::class)->findBy($category);
-
+        $tags = $this->getDoctrine()->getRepository(Tag::class)->findBy([
+            'tag' => $category
+            ]);
+        $query = $getAllArtFilterTags->index($tags);
         $pagination = $paginator->paginate(
         $query,
         $request->query->getInt('page', 1),
