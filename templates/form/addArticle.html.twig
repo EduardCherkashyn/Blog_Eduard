@@ -7,15 +7,13 @@
 {% block body %}
     <div class="container">
         {% form_theme registration_form 'bootstrap_4_layout.html.twig' %}
-    {{ form_start (registration_form,{'attr':{'id':'custom_post_form'}})}}
-
-    <div class="form-group">
-
-    {{ form_row(registration_form.nameToPublish,{'attr':{'class':'form-control', 'id':'formGroupExampleInput'}}) }}
-    {{ form_row(registration_form.textToPublish,{'attr':{'class':'form-control', 'id':'exampleFormControlTextarea1','rows':13}}) }}
-    {{ form_widget(registration_form.tags.0) }}
-        <input type="submit" class="btn btn-success mt-5" value="Submit" name="Submit" />
-    </div>
-    {{ form_end (registration_form)}}
+        {{ form_start (registration_form,{'attr':{'id':'custom_post_form'}})}}
+             <div class="form-group">
+                {{ form_row(registration_form.name,{'attr':{'class':'form-control', 'id':'formGroupExampleInput'}}) }}
+                {{ form_row(registration_form.text,{'attr':{'class':'form-control', 'id':'exampleFormControlTextarea1','rows':13}}) }}
+                {{ form_widget(registration_form.tags.0) }}
+                <input type="submit" class="btn btn-success mt-5" value="Submit" name="Submit" />
+             </div>
+        {{ form_end (registration_form)}}
     </div>
 {% endblock %}

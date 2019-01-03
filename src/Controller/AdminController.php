@@ -21,12 +21,11 @@ class AdminController extends AbstractController
      */
     public function indexAction()
     {
-        $admin = true;
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
         return $this->render('AdminController/adminHomePage.html.twig',[
             'users' => $users,
-            'admin' => $admin
+            'admin' => true
         ]);
     }
 
@@ -35,11 +34,9 @@ class AdminController extends AbstractController
      */
     public function userInfoAction(User $user)
     {
-        $admin = true;
         return $this->render('AdminController/userInfo.html.twig',[
             'user' => $user,
-            'admin' => $admin,
-
+            'admin' => true
         ]);
     }
 
@@ -48,20 +45,11 @@ class AdminController extends AbstractController
      */
     public function checkTextForPublishingAction()
     {
-        $admin = true;
-        $allArticles = $this->getDoctrine()->getRepository(Article::class)->findAll();
-        $articles = [];
-        /**
-         * @var Article $article
-         */
-        foreach($allArticles as $article){
-            if($article->getTextToPublish()!==null){
-                $articles[] = $article;
-            }
-        }
+        $articles = $this->getDoctrine()->getRepository(Article::class)->findBy(['approved'=> null]);
+
         return $this->render('AdminController/checkArticleBeforePublishing.html.twig',[
             'articles' => $articles,
-            'admin' => $admin
+            'admin' => true
         ]);
     }
 
@@ -70,10 +58,7 @@ class AdminController extends AbstractController
      */
     public function publishArticleAction(Article $article)
     {
-        $article->setText($article->getTextToPublish());
-        $article->setTextToPublish(null);
-        $article->setName($article->getNameToPublish());
-        $article->setTextToPublish(null);
+        $article->setApproved(true);
         $em = $this->getDoctrine()->getManager();
         $em->persist($article);
         $em->flush();

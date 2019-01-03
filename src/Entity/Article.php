@@ -55,14 +55,9 @@ class Article
     private $userLikes;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $textToPublish;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $nameToPublish;
+    private $approved;
 
     public function __construct()
     {
@@ -203,27 +198,16 @@ class Article
         return $this;
     }
 
-    public function getTextToPublish(): ?string
+    public function getApproved(): ?bool
     {
-        return $this->textToPublish;
+        return $this->approved;
     }
 
-    public function setTextToPublish(?string $textToPublish): self
+    public function setApproved(?bool $approved): self
     {
-        $this->textToPublish = $textToPublish;
+        $this->approved = $approved;
 
         return $this;
     }
 
-    public function getNameToPublish(): ?string
-    {
-        return $this->nameToPublish;
-    }
-
-    public function setNameToPublish(?string $nameToPublish): self
-    {
-        $this->nameToPublish = $nameToPublish;
-
-        return $this;
-    }
 }

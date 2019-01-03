@@ -69,7 +69,7 @@ class User implements UserInterface
     private $userlike;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", cascade={"all"})
      */
     private $comments;
 

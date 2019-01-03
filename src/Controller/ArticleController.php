@@ -57,14 +57,13 @@ class ArticleController extends AbstractController
     /**
      * @Route("/reader/articles/show", name="show_articles")
      */
-    public function showAction(Request $request, PermissionForAddingArticleService $permissionForAddingArticleService, PaginatorInterface $paginator, CheckIfAdmin $checkIfAdmin)
+    public function showAction(Request $request, PaginatorInterface $paginator, CheckIfAdmin $checkIfAdmin)
     {
         /**
          * @var User $user
          */
         $user = $this->getUser();
         $admin = $checkIfAdmin->index($user);
-        $permmison = $permissionForAddingArticleService->ifAdminRole($user);
         $query = $this->getDoctrine()->getRepository(Article::class)->findByApproved();
         $pagination = $paginator->paginate(
             $query,
@@ -75,7 +74,6 @@ class ArticleController extends AbstractController
         return $this->render('ArticleController/articles.html.twig', [
             'articles' => $pagination,
             'user' => $user,
-            'link' => $permmison,
             'admin' => $admin
         ]);
 
@@ -157,5 +155,30 @@ class ArticleController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('show_articles');
+    }
+
+    /**
+     * @Route("/reader/{category}", name="show_category")
+     */
+    public function categoryShowAction($category, Request $request, PaginatorInterface $paginator, CheckIfAdmin $checkIfAdmin)
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        $admin = $checkIfAdmin->index($user);
+        $query = $this->getDoctrine()->getRepository(Article::class)->findBy($category);
+
+        $pagination = $paginator->paginate(
+        $query,
+        $request->query->getInt('page', 1),
+        3
+    );
+
+        return $this->render('ArticleController/articles.html.twig', [
+            'articles' => $pagination,
+            'admin' => $admin
+        ]);
+
     }
 }

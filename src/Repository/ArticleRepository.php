@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -25,12 +26,15 @@ class ArticleRepository extends ServiceEntityRepository
     public function findByApproved()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.text = :val')
-            ->setParameter('val',false)
+            ->andWhere('a.approved = :val')
+            ->setParameter('val',true)
             ->orderBy('a.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
+
+
+
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */

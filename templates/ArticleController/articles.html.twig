@@ -7,6 +7,13 @@
 {% endblock %}
 {% block body %}
     <div class="container">
+        <div class="d-flex">
+            <a class="btn btn-success w-25" href="{{ path('show_category',{'category':'Sport'}) }}">Sport</a>
+            <a class="btn btn-success w-25" href="{{ path('show_category',{'category':'Fashion'}) }}">Fashion</a>
+            <a class="btn btn-success w-25" href="{{ path('show_category',{'category':'Computer'}) }}">Computer</a>
+            <a class="btn btn-success w-25" href="{{ path('show_category',{'category':'Travelling'}) }}">Travelling</a>
+            <a class="btn btn-success w-25" href="{{ path('show_category',{'category':'Animals'}) }}">Animals</a>
+        </div>
        <div class="list-group">
     {% for article in articles %}
         <div class="gray">
@@ -14,7 +21,9 @@
         </div>
             <div class="yellow">
             </div>
-
+        {% for tag in article %}
+            {{ tag.tag }}
+            {% endfor %}
         <a href="{{path('article_comment',({'id':article.id}))}}" class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ article.name }}</h5>
