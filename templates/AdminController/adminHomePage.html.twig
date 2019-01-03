@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %}Admin Page{% endblock %}
+{% block body %}
+    <div class="container">
+         <table class="table table-hover">
+             <tr>
+                 <th scope="col">User name</th>
+                 <th scope="col">Email</th>
+                 <th scope="col">Applyed For User_Role</th>
+             </tr>
+             {% for user in users %}
+                 <tr scope="row">
+                     <td><a href="{{ path('user_info',({'id':user.id}))}}" class="btn btn-warning w-100" role="button">{{ user.name }}</a></td>
+                     <td>{{ user.email }}</td>
+                     {% if user.permissionRequest %}
+                         <td class="alert alert-danger" role="alert">Give me Role!!!</td>
+                        {% else %}
+                          <td></td>
+                     {% endif %}
+                 </tr>
+             {% endfor %}
+         </table>
+    </div>
+{% endblock %}

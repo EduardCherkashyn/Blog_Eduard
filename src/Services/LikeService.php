@@ -1,0 +1,59 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: eduardcherkashyn
+ * Date: 12/4/18
+ * Time: 8:13 PM
+ */
+
+namespace App\Services;
+
+
+use App\Entity\Article;
+use App\Entity\User;
+use App\Entity\UserLike;
+
+class LikeService
+{
+    public function countLikes(Article $article) :int
+    {
+        $allLikes = $article->getUserLikes();
+        $amountOfLikes = count($allLikes);
+        foreach($allLikes as $like){
+            if($like->getLikeOn()==false){
+                $amountOfLikes--;
+            }
+        }
+
+        return $amountOfLikes;
+    }
+
+    public function ajaxRequest(User $user,Article $article) :UserLike
+    {
+        $data = null;
+        $allUserLikes = $user->getUserlike();
+        foreach($allUserLikes as $item){
+            if($item->getArticle() === $article){
+                $data = $item;
+                break;
+            }
+        }
+        $likes = $data;
+        if($likes == null) {
+            $userLike = new UserLike();
+            $userLike->setArticle($article);
+            $userLike->setUser($user);
+            $userLike->setLikeOn(true);
+
+            return $userLike;
+        }
+        if($likes->getLikeOn() == null){
+            $likes->setLikeOn(true);
+        }
+        else{
+            $likes->setLikeOn(false);
+        }
+
+        return $likes;
+    }
+}
