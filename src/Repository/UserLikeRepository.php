@@ -19,22 +19,21 @@ class UserLikeRepository extends ServiceEntityRepository
         parent::__construct($registry, UserLike::class);
     }
 
-    // /**
-    //  * @return UserLike[] Returns an array of UserLike objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return int
+     */
+    public function findByLiked()
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
+        $qb =  $this->createQueryBuilder('u')
+            ->andWhere('u.likeOn = :val')
+            ->setParameter('val', true)
             ->getQuery()
             ->getResult()
         ;
+
+        return count($qb);
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?UserLike
