@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\User;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,12 +20,16 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/home", name="admin_home")
      */
-    public function indexAction()
+    public function indexAction(PaginatorInterface $paginator,Request $request)
     {
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
-
+        $query = $this->getDoctrine()->getRepository(User::class)->findAllQuery();
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            10
+        );
         return $this->render('AdminController/adminHomePage.html.twig',[
-            'users' => $users,
+            'users' => $pagination,
             'admin' => true
         ]);
     }

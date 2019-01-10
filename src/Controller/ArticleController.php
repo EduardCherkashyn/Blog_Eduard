@@ -98,9 +98,7 @@ class ArticleController extends AbstractController
     public function commentAction(Request $request, Article $article, LikeService $like, CheckIfAdmin $checkIfAdmin)
     {
         $comment = new Comment();
-        /**
-         * @var User $user
-         */
+        /**@var User $user */
         $user = $this->getUser();
         $admin = $checkIfAdmin->index($user);
         $amountOfLikes = $like->countLikes($article);
@@ -131,9 +129,7 @@ class ArticleController extends AbstractController
      */
     public function likesAction(Article $article, LikeService $like)
     {
-        /**
-         * @var User $user
-         */
+        /** @var User $user */
         $user = $this->getUser();
         $userLike = $like->ajaxRequest($user, $article);
         $em = $this->getDoctrine()->getManager();

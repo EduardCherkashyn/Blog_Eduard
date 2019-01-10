@@ -59,16 +59,22 @@ class User implements UserInterface
     private $plainpassword;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="user", cascade={"all"})
      */
     private $articles;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\UserLike", mappedBy="user")
      */
     private $userlike;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", cascade={"all"})
      */
     private $comments;
