@@ -24,6 +24,8 @@ class Tag
     private $tag;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\ManyToMany(targetEntity="App\Entity\Article", inversedBy="tags")
      */
     private $article;

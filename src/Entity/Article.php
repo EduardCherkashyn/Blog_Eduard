@@ -33,11 +33,15 @@ class Article
     private $name;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", mappedBy="article",cascade={"all"})
      */
     private $tags;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="article")
      */
     private $comments;
@@ -54,6 +58,8 @@ class Article
     private $text;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\UserLike", mappedBy="article")
      */
     private $userLikes;
