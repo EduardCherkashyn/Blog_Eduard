@@ -9,35 +9,46 @@
 namespace App\Controller\API;
 
 use App\Entity\Article;
+use App\Exception\JsonHttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class ApiController extends AbstractController
 {
     /**
-     * @Route("/api/article/{id}", name="api_articles")
+     * @Route("/api/articles/{id}/show", name="api_articles")
      */
-    public function showOneArticleAction(Article $article,SerializerInterface $serializer)
+    public function showOneArticleAction(Article $article)
     {
-
-        $jsonContent = $serializer->serialize($article,'json', array('groups' => 'group1'));
-
-        return new JsonResponse(json_decode($jsonContent));
+        return $this->json($article);
     }
 
     /**
      * @Route("/api/articles/new", name="api_articles_add")
      */
-    public function addArticleAction(Request $request,SerializerInterface $serializer)
+    public function addArticleAction(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, RouterInterface $router)
     {
-        $data = $request->getContent();
-        $jsonContent = $serializer->deserialize($data,Article::class,'json');
+        if (!$content = $request->getContent()) {
+            throw new JsonHttpException(400, 'Bad Request');
+        }
 
-        return new Response(var_dump($jsonContent));
+        /** @var Article $article */
+        $article = $serializer->deserialize($request->getContent(),Article::class,'json');
+
+        $errors = $validator->validate($article);
+
+        if (count($errors)) {
+            throw new JsonHttpException(400, 'Bad Request');
+        }
+
+        $this->getDoctrine()->getManager()->persist($article);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->json($article);
     }
 }

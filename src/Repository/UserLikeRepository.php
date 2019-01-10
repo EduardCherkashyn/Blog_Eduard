@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Article;
 use App\Entity\UserLike;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -20,7 +21,15 @@ class UserLikeRepository extends ServiceEntityRepository
     }
 
 
-
+    public function countLikes(Article $article)
+    {
+        return $this->createQueryBuilder('ul')
+            ->andWhere('ul.article = :article')
+            ->setParameter('article', $article)
+            ->select('COUNT(ul)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?UserLike

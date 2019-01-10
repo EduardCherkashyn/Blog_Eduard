@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -14,21 +13,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  * @UniqueEntity("name")
  */
-class Article
+class Article implements \JsonSerializable
 {
     /**
      * @var int
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups("group1")
      */
     private $id;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups("group1")
      */
     private $name;
 
@@ -53,7 +50,6 @@ class Article
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups("group1")
      */
     private $text;
 
@@ -219,5 +215,14 @@ class Article
 
         return $this;
     }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'user' => $this->getUser()->getId()
+        ];
+    }
+
 
 }
