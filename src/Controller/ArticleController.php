@@ -12,6 +12,7 @@ use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Tag;
 use App\Entity\User;
+use App\Entity\UserLike;
 use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Services\CheckIfAdmin;
@@ -101,7 +102,7 @@ class ArticleController extends AbstractController
         /**@var User $user */
         $user = $this->getUser();
         $admin = $checkIfAdmin->index($user);
-        $amountOfLikes = $like->countLikes($article);
+        $amountOfLikes = $this->getDoctrine()->getRepository(UserLike::class)->countLikes($article);
         $form = $this->createForm(CommentType::class,$comment);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
