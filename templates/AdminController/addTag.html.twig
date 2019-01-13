@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block title %}Add Tag{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/addArticle.css') }}">
+{% endblock %}
+{% block body %}
+    <div class="container">
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+    {{ form_start(form) }}
+    <div class="form-group">
+        {{ form_row(form.tag,{'attr':{'class':'form-control', 'id':'formGroupExampleInput'}}) }}
+    <input type="submit" class="btn btn-success mt-3" value="Submit" name="Submit" />
+    </div>
+    {{ form_end(form) }}
+    </div>
+{% endblock%}

@@ -8,11 +8,9 @@
 {% block body %}
     <div class="container">
         <div class="d-flex">
-            <a class="btn btn-warning w-25" href="{{ path('show_category',{'category':'Sport'}) }}">Sport</a>
-            <a class="btn btn-warning w-25" href="{{ path('show_category',{'category':'Fashion'}) }}">Fashion</a>
-            <a class="btn btn-warning w-25" href="{{ path('show_category',{'category':'Computer'}) }}">Computer</a>
-            <a class="btn btn-warning w-25" href="{{ path('show_category',{'category':'Travelling'}) }}">Travelling</a>
-            <a class="btn btn-warning w-25" href="{{ path('show_category',{'category':'Animals'}) }}">Animals</a>
+            {% for tag in tags%}
+            <a class="btn btn-warning w-25" href="{{ path('show_category',{'category': tag.tag}) }}">{{ tag.tag }}</a>
+            {% endfor %}
         </div>
        <div class="list-group">
     {% for article in articles %}

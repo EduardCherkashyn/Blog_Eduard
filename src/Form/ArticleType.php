@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\Tag;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -27,11 +29,11 @@ class ArticleType extends AbstractType
                     'placeholder' => 'Enter some text here',
                     'class' => 'text_class',
                 ], ])
-            ->add('tags',CollectionType::class,[
-                'entry_type' => TagType::class,
-                'attr' => [
-                    'label' => false,
-                ],
+            ->add('tags',EntityType::class,[
+                'class' => Tag::class,
+                'choice_label' => 'tag',
+                'mapped' => false,
+                'multiple' => true
             ])
         ;
     }

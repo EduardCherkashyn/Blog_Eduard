@@ -84,6 +84,11 @@ class User implements UserInterface
      */
     private $permissionRequest;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     */
+    private $apiToken;
+
 
     public function __construct()
     {
@@ -297,6 +302,19 @@ class User implements UserInterface
     public function setPermissionRequest(?bool $permissionRequest): self
     {
         $this->permissionRequest = $permissionRequest;
+
+        return $this;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->apiToken;
+    }
+
+
+    public function setApiToken(string $apiToken): self
+    {
+        $this->apiToken = $apiToken;
 
         return $this;
     }

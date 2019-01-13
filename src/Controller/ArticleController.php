@@ -18,7 +18,6 @@ use App\Form\CommentType;
 use App\Services\CheckIfAdmin;
 use App\Services\GetAllArtFilterTags;
 use App\Services\LikeService;
-use App\Services\PermissionForAddingArticleService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,14 +34,15 @@ class ArticleController extends AbstractController
     {
         $admin = $checkIfAdmin->index($this->getUser());
         $article = new Article();
-        $tag = new Tag();
-        $article->addTag($tag);
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $tags = $form->get('tags')->getData();
             $user = $this->getUser();
             $article->setUser($user);
+            foreach ($tags as $tag) {
+                $article->addTag($tag);
+            }
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
@@ -59,12 +59,11 @@ class ArticleController extends AbstractController
     /**
      * @Route("/reader/articles/show", name="show_articles")
      */
-    public function showAction(Request $request, PaginatorInterface $paginator, CheckIfAdmin $checkIfAdmin)
+    public function showAllAction(Request $request, PaginatorInterface $paginator, CheckIfAdmin $checkIfAdmin)
     {
-        /**
-         * @var User $user
-         */
+        /** @var User $user */
         $user = $this->getUser();
+        $tags = $this->getDoctrine()->getRepository(Tag::class)->findAll();
         $admin = $checkIfAdmin->index($user);
         $query = $this->getDoctrine()->getRepository(Article::class)->findByApproved();
         $pagination = $paginator->paginate(
@@ -76,7 +75,8 @@ class ArticleController extends AbstractController
         return $this->render('ArticleController/articles.html.twig', [
             'articles' => $pagination,
             'user' => $user,
-            'admin' => $admin
+            'admin' => $admin,
+            'tags' => $tags
         ]);
 
     }
@@ -96,7 +96,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/reader/articles/comment/{id}", name="article_comment")
      */
-    public function commentAction(Request $request, Article $article, LikeService $like, CheckIfAdmin $checkIfAdmin)
+    public function showOneAction(Request $request, Article $article, CheckIfAdmin $checkIfAdmin)
     {
         $comment = new Comment();
         /**@var User $user */
@@ -137,7 +137,7 @@ class ArticleController extends AbstractController
         $em->persist($userLike);
         $em->flush();
         $em->refresh($article);
-        $amountOfLikes = $like->countLikes($article);
+        $amountOfLikes = $this->getDoctrine()->getRepository(UserLike::class)->countLikes($article);
 
         return new JsonResponse(['likes' => $amountOfLikes ]);
     }
@@ -165,6 +165,7 @@ class ArticleController extends AbstractController
          */
         $user = $this->getUser();
         $admin = $checkIfAdmin->index($user);
+        $tags2 = $this->getDoctrine()->getRepository(Tag::class)->findAll();
         $tags = $this->getDoctrine()->getRepository(Tag::class)->findBy([
             'tag' => $category
             ]);
@@ -177,7 +178,8 @@ class ArticleController extends AbstractController
 
         return $this->render('ArticleController/articles.html.twig', [
             'articles' => $pagination,
-            'admin' => $admin
+            'admin' => $admin,
+            'tags' => $tags2
         ]);
 
     }

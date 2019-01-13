@@ -26,6 +26,8 @@ class UserLikeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('ul')
             ->andWhere('ul.article = :article')
             ->setParameter('article', $article)
+            ->andWhere('ul.likeOn = :val')
+            ->setParameter('val',true)
             ->select('COUNT(ul)')
             ->getQuery()
             ->getSingleScalarResult();

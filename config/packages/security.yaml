@@ -14,13 +14,20 @@ security:
             dev:
                  pattern: ^/(_(profiler|wdt)|css|images|js)/
                  security: false
-            main:
+            api:
+                        pattern: ^/api/
+                        guard:
+                            authenticators:
+                               - App\Security\TokenAuthenticator
+
+            default:
 
                 anonymous: true
                 logout: true
                 guard:
                      authenticators:
-                         - App\Security\LoginFormAuthenticator
+                          - App\Security\LoginFormAuthenticator
+
 
 
      role_hierarchy:

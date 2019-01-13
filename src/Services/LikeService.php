@@ -15,19 +15,6 @@ use App\Entity\UserLike;
 
 class LikeService
 {
-    public function countLikes(Article $article) :int
-    {
-        $allLikes = $article->getUserLikes();
-        $amountOfLikes = count($allLikes);
-        foreach($allLikes as $like){
-            if($like->getLikeOn()==false){
-                $amountOfLikes--;
-            }
-        }
-
-        return $amountOfLikes;
-    }
-
     public function ajaxRequest(User $user,Article $article) :UserLike
     {
         $data = null;

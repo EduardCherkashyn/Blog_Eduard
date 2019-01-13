@@ -28,7 +28,7 @@ class LoginType extends AbstractType
                 'class' => 'custom_class form-control',
                 'id' => 'inputPassword',
                 'required' => true,
-            ], ])
+            ]])
         ;
     }
 

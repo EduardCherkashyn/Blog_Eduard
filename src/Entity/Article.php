@@ -220,7 +220,9 @@ class Article implements \JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'user' => $this->getUser()->getId()
+            'user' => $this->getUser()->getId(),
+            'name' => $this->getName(),
+            'text' => $this->getText()
         ];
     }
 

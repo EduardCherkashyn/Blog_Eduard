@@ -9,7 +9,9 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Tag;
 use App\Entity\User;
+use App\Form\TagType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -109,4 +111,24 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('user_info',['id' =>$user->getId()]);
     }
 
+    /**
+     * @Route("/admin/tag/new", name="add_tag")
+     */
+    public function addTagAction(Request $request){
+        $tag = new Tag();
+        $form = $this->createForm(TagType::class, $tag);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($tag);
+            $em->flush();
+
+        return $this->redirectToRoute('admin_home');
+        }
+
+        return $this->render('AdminController/addTag.html.twig',[
+            'form' => $form->createView(),
+            'admin' => true
+        ]);
+    }
 }
