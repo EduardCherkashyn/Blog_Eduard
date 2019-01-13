@@ -16,12 +16,32 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use OpenApi\Annotations as OA;
+
+/**
+ * @OA\Info(
+ *   title="My first API",
+ *   version="1.0.0",
+ * )
+ */
 
 
 class ArticleController extends AbstractController
 {
     /**
      * @Route("/api/articles/{id}", name="api_articles", methods={"GET"})
+     * @OA\Get(path="/api/articles/{id}",
+     *     summary="Get one article by id",
+     *   @OA\Parameter(name="id",
+     *     in="path",
+     *     required=true,
+     *     @OA\Schema(type="string")
+     *   ),
+     *   @OA\Response(response="200",
+     *     description="The Article",
+     *     @OA\JsonContent(ref="#/components/schemas/article"),
+     *   )
+     * )
      */
     public function showOneArticleAction(Article $article)
     {
@@ -29,7 +49,31 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/api/articles/{id}", name="api_articles_add", methods={"POST"})
+     * @Route("/api/articles", name="api_articles_add", methods={"POST"})
+     * @OA\Post(
+     *     path="/api/articles",
+     *     summary="Add a new article",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="name",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="text",
+     *                     type="string"
+     *                 ),
+     *                 example={"name": "Name", "text": "Some Text Here"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="New Article has been created"
+     *     )
+     * )
      */
     public function addArticleAction(Request $request, SerializerInterface $serializer, ValidatorInterface $validator)
     {
@@ -54,6 +98,12 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/api/articles", name="api_articles_all", methods={"GET"})
+     * * @OA\Get(path="/api/articles",
+     *     summary="Get all articles",
+     *   @OA\Response(response="200",
+     *     description="All Articles",
+     *   )
+     * )
      */
     public function showAllArticleAction()
     {

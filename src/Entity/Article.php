@@ -6,12 +6,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use OpenApi\Annotations as OA;
 
 
 /**
  * @ORM\Table(name="Article")
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  * @UniqueEntity("name")
+ * @OA\Schema(schema="article")
  */
 class Article implements \JsonSerializable
 {
@@ -20,6 +22,7 @@ class Article implements \JsonSerializable
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @OA\Property()
      */
     private $id;
 
@@ -49,6 +52,7 @@ class Article implements \JsonSerializable
     private $user;
 
     /**
+     * @var string
      * @ORM\Column(type="text", nullable=true)
      */
     private $text;

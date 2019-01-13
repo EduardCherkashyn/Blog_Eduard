@@ -1,0 +1,90 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My first API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/articles/{id}": {
+            "get": {
+                "summary": "Get one article by id",
+                "operationId": "App\\Controller\\Api\\Article\\ArticleController::showOneArticleAction",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Article",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/article"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/articles": {
+            "get": {
+                "summary": "Get all articles",
+                "operationId": "App\\Controller\\Api\\Article\\ArticleController::showAllArticleAction",
+                "responses": {
+                    "200": {
+                        "description": "All Articles"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Add a new article",
+                "operationId": "App\\Controller\\Api\\Article\\ArticleController::addArticleAction",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "text": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Name",
+                                    "text": "Some Text Here"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "New Article has been created"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "article": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
