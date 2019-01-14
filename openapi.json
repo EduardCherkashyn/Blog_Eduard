@@ -73,6 +73,85 @@
                     }
                 }
             }
+        },
+        "/api/comments": {
+            "get": {
+                "summary": "Get all comments",
+                "operationId": "App\\Controller\\Api\\Article\\ArticleController::showAllCommentsAction",
+                "responses": {
+                    "200": {
+                        "description": "All comments"
+                    }
+                }
+            }
+        },
+        "/registrations": {
+            "post": {
+                "summary": "User registration",
+                "operationId": "App\\Controller\\Api\\User\\UserController::registrationAction",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "plainpassword": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Name",
+                                    "email": "email@gmail.com",
+                                    "plainpassword": "123456"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registration is successful"
+                    }
+                }
+            }
+        },
+        "/login-api": {
+            "post": {
+                "summary": "User login",
+                "operationId": "App\\Controller\\Api\\User\\UserController::loginAction",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "email@gmail.com",
+                                    "password": "123456"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login is successful"
+                    }
+                }
+            }
         }
     },
     "components": {

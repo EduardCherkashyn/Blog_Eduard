@@ -113,6 +113,11 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/api/comments", name="api_comments_all", methods={"GET"})
+     * @OA\Get(path="/api/comments",
+     *     summary="Get all comments",
+     *   @OA\Response(response="200",
+     *     description="All comments",
+     *   ))
      */
     public function showAllCommentsAction()
     {

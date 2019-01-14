@@ -8,6 +8,7 @@
 
 namespace App\Event;
 
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -43,5 +44,10 @@ class EncodePasswordSubscriber implements EventSubscriberInterface
         $plainPassword = $user->getPlainpassword();
         $encoded = $this->passwordEncoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
+        try {
+            $uuid = Uuid::uuid4();
+        } catch (\Exception $e) {
+        }
+        $user->setApiToken($uuid->toString());
     }
 }

@@ -17,14 +17,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class UserController extends AbstractController
 {
     /**
      * @Route("/registration", name="registration")
+     * @throws \Exception
      */
-    public function registrationAction(Request $request, EventDispatcherInterface $dispatcher, TokenGeneratorInterface $tokenGenerator)
+    public function registrationAction(Request $request, EventDispatcherInterface $dispatcher)
     {
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
@@ -32,7 +32,6 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $event = new EncodePasswordEvent($user);
             $dispatcher->dispatch(EncodePasswordEvent::NAME, $event);
-            $user->setApiToken( $tokenGenerator->generateToken());
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
