@@ -11,6 +11,7 @@ namespace App\Controller\Api\Article;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Exception\JsonHttpException;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -105,9 +106,10 @@ class ArticleController extends AbstractController
      *   )
      * )
      */
-    public function showAllArticleAction()
+    public function showAllArticleAction(PaginatorInterface $paginator,Request $request)
     {
-        $articles = $this->getDoctrine()->getRepository(Article::class)->findByApproved()->getResult();
+        $query = $this->getDoctrine()->getRepository(Article::class)->findByApproved();
+        $articles = $paginator->paginate($query,$request->query->getInt('page', 1),3);
         return $this->json($articles);
     }
 
