@@ -15,7 +15,6 @@ use App\Entity\User;
 use App\Entity\UserLike;
 use App\Form\ArticleType;
 use App\Form\CommentType;
-use App\Services\CheckIfAdmin;
 use App\Services\GetAllArtFilterTags;
 use App\Services\LikeService;
 use Knp\Component\Pager\PaginatorInterface;
@@ -30,9 +29,8 @@ class ArticleController extends AbstractController
     /**
      * @Route("/user/articles/add", name="add_article")
      */
-    public function addAction(Request $request, CheckIfAdmin $checkIfAdmin)
+    public function addAction(Request $request)
     {
-        $admin = $checkIfAdmin->index($this->getUser());
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
@@ -52,19 +50,17 @@ class ArticleController extends AbstractController
 
         return $this->render('form/addArticle.html.twig', [
             'registration_form' => $form->createView(),
-            'admin' => $admin
         ]);
     }
 
     /**
      * @Route("/reader/articles/show", name="show_articles")
      */
-    public function showAllAction(Request $request, PaginatorInterface $paginator, CheckIfAdmin $checkIfAdmin)
+    public function showAllAction(Request $request, PaginatorInterface $paginator)
     {
         /** @var User $user */
         $user = $this->getUser();
         $tags = $this->getDoctrine()->getRepository(Tag::class)->findAll();
-        $admin = $checkIfAdmin->index($user);
         $query = $this->getDoctrine()->getRepository(Article::class)->findByApproved();
         $pagination = $paginator->paginate(
             $query,
@@ -75,7 +71,6 @@ class ArticleController extends AbstractController
         return $this->render('ArticleController/articles.html.twig', [
             'articles' => $pagination,
             'user' => $user,
-            'admin' => $admin,
             'tags' => $tags
         ]);
 
@@ -84,24 +79,20 @@ class ArticleController extends AbstractController
     /**
      * @Route("/reader", name="home_page")
      */
-    public function homePageAction(CheckIfAdmin $checkIfAdmin)
+    public function homePageAction()
     {
-        $admin = $checkIfAdmin->index($this->getUser());
-        return $this->render('ArticleController/homepage.html.twig',[
-            'admin' => $admin
-        ]);
+        return $this->render('ArticleController/homepage.html.twig');
     }
 
 
     /**
      * @Route("/reader/articles/comment/{id}", name="article_comment")
      */
-    public function showOneAction(Request $request, Article $article, CheckIfAdmin $checkIfAdmin)
+    public function showOneAction(Request $request, Article $article)
     {
         $comment = new Comment();
         /**@var User $user */
         $user = $this->getUser();
-        $admin = $checkIfAdmin->index($user);
         $amountOfLikes = $this->getDoctrine()->getRepository(UserLike::class)->countLikes($article);
         $form = $this->createForm(CommentType::class,$comment);
         $form->handleRequest($request);
@@ -120,7 +111,6 @@ class ArticleController extends AbstractController
             'article' => $article,
             'comment_form' => $form->createView(),
             'likes' => $amountOfLikes,
-            'admin' => $admin
 
         ]);
     }
@@ -158,13 +148,9 @@ class ArticleController extends AbstractController
     /**
      * @Route("/reader/category/{category}", name="show_category")
      */
-    public function categoryShowAction($category, Request $request, PaginatorInterface $paginator, CheckIfAdmin $checkIfAdmin, GetAllArtFilterTags $getAllArtFilterTags)
+    public function categoryShowAction($category, Request $request, PaginatorInterface $paginator, GetAllArtFilterTags $getAllArtFilterTags)
     {
-        /**
-         * @var User $user
-         */
-        $user = $this->getUser();
-        $admin = $checkIfAdmin->index($user);
+
         $tags2 = $this->getDoctrine()->getRepository(Tag::class)->findAll();
         $tags = $this->getDoctrine()->getRepository(Tag::class)->findBy([
             'tag' => $category
@@ -178,7 +164,6 @@ class ArticleController extends AbstractController
 
         return $this->render('ArticleController/articles.html.twig', [
             'articles' => $pagination,
-            'admin' => $admin,
             'tags' => $tags2
         ]);
 

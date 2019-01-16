@@ -31,8 +31,7 @@ class AdminController extends AbstractController
             10
         );
         return $this->render('AdminController/adminHomePage.html.twig',[
-            'users' => $pagination,
-            'admin' => true
+            'users' => $pagination
         ]);
     }
 
@@ -42,8 +41,7 @@ class AdminController extends AbstractController
     public function userInfoAction(User $user)
     {
         return $this->render('AdminController/userInfo.html.twig',[
-            'user' => $user,
-            'admin' => true
+            'user' => $user
         ]);
     }
 
@@ -55,8 +53,7 @@ class AdminController extends AbstractController
         $articles = $this->getDoctrine()->getRepository(Article::class)->findBy(['approved'=> null]);
 
         return $this->render('AdminController/checkArticleBeforePublishing.html.twig',[
-            'articles' => $articles,
-            'admin' => true
+            'articles' => $articles
         ]);
     }
 
@@ -127,8 +124,7 @@ class AdminController extends AbstractController
         }
 
         return $this->render('AdminController/addTag.html.twig',[
-            'form' => $form->createView(),
-            'admin' => true
+            'form' => $form->createView()
         ]);
     }
 }
