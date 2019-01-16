@@ -12,8 +12,11 @@
         {% if user.permissionRequest %}
         <li class="list-group-item">Please add me a User Role</li>
         {% endif %}
-        <a href="{{ path('add_user_role',({'id':user.id})) }}" class="btn btn-success w-25 mb-3 ">Add Role</a>
-        <a href="{{ path('remove_user_role',({'id':user.id})) }}" class="btn btn-danger w-25 mb-3">Remove Role</a>
+        {% if user.roles|length>1 %}
+        <a href="{{ path('remove_user_role',({'id':user.id})) }}" class="btn btn-danger w-25 mt-2">Remove Role User</a>
+       {% else %}
+        <a href="{{ path('add_user_role',({'id':user.id})) }}" class="btn btn-success w-25 mt-2 ">Add Role User</a>
+       {% endif %}
         <h2>Articles:</h2>
     {% for article in user.articles %}
         <li class="list-group-item"><button  type="button" data-toggle="collapse" data-target="#{{ article.id }}" aria-expanded="false" aria-controls="{{ article.id }}" class="btn btn-warning btn-lg btn-block">
