@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,8 +30,8 @@ class RegistrationType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'required' => true,
-                'first_options'  => ['label' => false,'attr' => ['placeholder' => 'Enter your password','class' => 'form-control']],
-                'second_options' => ['label' => 'Repeat Password','attr' => ['placeholder' => ' Repeat password','class' => 'form-control']]]
+                'first_options' => ['label' => false, 'attr' => ['placeholder' => 'Enter your password', 'class' => 'form-control']],
+                'second_options' => ['label' => 'Repeat Password', 'attr' => ['placeholder' => ' Repeat password', 'class' => 'form-control']], ]
             )
         ;
     }

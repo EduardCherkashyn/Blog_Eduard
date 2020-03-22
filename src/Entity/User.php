@@ -10,13 +10,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * @ORM\Table(name="User")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("email")
  */
-class User implements UserInterface,JsonSerializable
+class User implements UserInterface, JsonSerializable
 {
     /**
      * @ORM\Id()
@@ -89,7 +88,6 @@ class User implements UserInterface,JsonSerializable
      * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     private $apiToken;
-
 
     public function __construct()
     {
@@ -195,7 +193,6 @@ class User implements UserInterface,JsonSerializable
     {
         $this->plainpassword = $plainpassword;
     }
-
 
     public function getPlainpassword(): ?string
     {
@@ -312,7 +309,6 @@ class User implements UserInterface,JsonSerializable
         return $this->apiToken;
     }
 
-
     public function setApiToken(string $apiToken): self
     {
         $this->apiToken = $apiToken;
@@ -325,8 +321,7 @@ class User implements UserInterface,JsonSerializable
         return [
             'id' => $this->getId(),
             'name' => $this->getName(),
-            'apiToken' => $this->getApiToken()
+            'apiToken' => $this->getApiToken(),
         ];
     }
-   
 }

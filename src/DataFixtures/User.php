@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class User extends Fixture
 {
-
     private $passwordEncoder;
     private $tokenAuthenticator;
 
@@ -31,70 +30,69 @@ class User extends Fixture
         $manager->persist($admin);
         $manager->flush();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             try {
                 $uuid = Uuid::uuid4();
             } catch (\Exception $e) {
             }
             $article1 = new Article();
-            $article1->setName('Article' . $i)
+            $article1->setName('Article'.$i)
                 ->setText('Fat new smallness few supposing suspicion two. Course sir people worthy horses add entire suffer. How one dull get busy dare far. At principle perfectly by sweetness do. As mr started arrival subject by believe. Strictly numerous outlived kindness whatever on we no on addition.
                                Offered say visited elderly and. Waited period are played family man formed. He ye body or made on pain part meet. You one delay nor begin our folly abode. By disposed replying mr me unpacked no. As moonlight of my resolving unwilling. ');
             $user = new \App\Entity\User();
             $user->setName('User')
-                ->setEmail($i . 'email@ukr.net')
+                ->setEmail($i.'email@ukr.net')
                 ->setPassword($this->passwordEncoder->encodePassword($user, '123456'))
                 ->addArticle($article1)
                 ->setApiToken($uuid->toString());
             $manager->persist($user);
             $manager->flush();
         }
-            $tag1 = new Tag();
-            $tag1->setTag('Sport');
-            for ($i = 0; $i < 5; $i++) {
-                try {
-                    $uuid = Uuid::uuid4();
-                } catch (\Exception $e) {
-                }
-                $article1 = new Article();
-                $article1->setName('Article' . $i)
+        $tag1 = new Tag();
+        $tag1->setTag('Sport');
+        for ($i = 0; $i < 5; ++$i) {
+            try {
+                $uuid = Uuid::uuid4();
+            } catch (\Exception $e) {
+            }
+            $article1 = new Article();
+            $article1->setName('Article'.$i)
                     ->setText('Fat new smallness few supposing suspicion two. Course sir people worthy horses add entire suffer. How one dull get busy dare far. At principle perfectly by sweetness do. As mr started arrival subject by believe. Strictly numerous outlived kindness whatever on we no on addition.
                              Offered say visited elderly and. Waited period are played family man formed. He ye body or made on pain part meet. You one delay nor begin our folly abode. By disposed replying mr me unpacked no. As moonlight of my resolving unwilling. ')
                     ->setApproved(true)
                     ->addTag($tag1);
-                $user = new \App\Entity\User();
-                $user->setName('User')
-                    ->setEmail($i . 'mail@ukr.net')
+            $user = new \App\Entity\User();
+            $user->setName('User')
+                    ->setEmail($i.'mail@ukr.net')
                     ->setPassword($this->passwordEncoder->encodePassword($user, '123456'))
                     ->addArticle($article1)
                     ->setApiToken($uuid->toString());
-                $manager->persist($user);
-                $manager->flush();
+            $manager->persist($user);
+            $manager->flush();
+        }
+        $tag = new Tag();
+        $tag->setTag('Animals');
+        for ($i = 0; $i < 5; ++$i) {
+            try {
+                $uuid = Uuid::uuid4();
+            } catch (\Exception $e) {
             }
-            $tag = new Tag();
-            $tag->setTag('Animals');
-            for ($i = 0; $i < 5; $i++) {
-                try {
-                    $uuid = Uuid::uuid4();
-                } catch (\Exception $e) {
-                }
-                $article1 = new Article();
-                $article1->setName('Article' . $i)
+            $article1 = new Article();
+            $article1->setName('Article'.$i)
                     ->setText('Fat new smallness few supposing suspicion two. Course sir people worthy horses add entire suffer. How one dull get busy dare far. At principle perfectly by sweetness do. As mr started arrival subject by believe. Strictly numerous outlived kindness whatever on we no on addition.
             Offered say visited elderly and. Waited period are played family man formed. He ye body or made on pain part meet. You one delay nor begin our folly abode. By disposed replying mr me unpacked no. As moonlight of my resolving unwilling. ')
                     ->setApproved(true)
                     ->addTag($tag);
-                $user = new \App\Entity\User();
-                $user->setName('User')
-                    ->setEmail($i . 'ail@ukr.net')
+            $user = new \App\Entity\User();
+            $user->setName('User')
+                    ->setEmail($i.'ail@ukr.net')
                     ->setPassword($this->passwordEncoder->encodePassword($user, '123456'))
                     ->addArticle($article1)
                     ->setApiToken($uuid->toString());
-                $manager->persist($user);
-                $manager->flush();
-            }
+            $manager->persist($user);
+            $manager->flush();
         }
-
+    }
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, TokenAuthenticator $tokenAuthenticator)
     {

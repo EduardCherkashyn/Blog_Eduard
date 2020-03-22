@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: eduardcherkashyn
  * Date: 12/5/18
- * Time: 9:56 AM
+ * Time: 9:56 AM.
  */
 
 namespace App\Controller;
@@ -22,7 +22,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/home", name="admin_home")
      */
-    public function indexAction(PaginatorInterface $paginator,Request $request)
+    public function indexAction(PaginatorInterface $paginator, Request $request)
     {
         $query = $this->getDoctrine()->getRepository(User::class)->findAllQuery();
         $pagination = $paginator->paginate(
@@ -30,8 +30,9 @@ class AdminController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('AdminController/adminHomePage.html.twig',[
-            'users' => $pagination
+
+        return $this->render('AdminController/adminHomePage.html.twig', [
+            'users' => $pagination,
         ]);
     }
 
@@ -40,8 +41,8 @@ class AdminController extends AbstractController
      */
     public function userInfoAction(User $user)
     {
-        return $this->render('AdminController/userInfo.html.twig',[
-            'user' => $user
+        return $this->render('AdminController/userInfo.html.twig', [
+            'user' => $user,
         ]);
     }
 
@@ -50,10 +51,10 @@ class AdminController extends AbstractController
      */
     public function checkTextForPublishingAction()
     {
-        $articles = $this->getDoctrine()->getRepository(Article::class)->findBy(['approved'=> null]);
+        $articles = $this->getDoctrine()->getRepository(Article::class)->findBy(['approved' => null]);
 
-        return $this->render('AdminController/checkArticleBeforePublishing.html.twig',[
-            'articles' => $articles
+        return $this->render('AdminController/checkArticleBeforePublishing.html.twig', [
+            'articles' => $articles,
         ]);
     }
 
@@ -68,7 +69,6 @@ class AdminController extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('text_check');
-
     }
 
     /**
@@ -86,32 +86,35 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/addUserRole/{id}", name="add_user_role")
      */
-    public function addRoleAction(User $user){
+    public function addRoleAction(User $user)
+    {
         $user->setRoles(['ROLE_USER']);
         $user->setPermissionRequest(false);
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
 
-        return $this->redirectToRoute('user_info',['id' =>$user->getId()]);
+        return $this->redirectToRoute('user_info', ['id' => $user->getId()]);
     }
 
     /**
      * @Route("/admin/removeUserRole/{id}", name="remove_user_role")
      */
-    public function removeRoleAction(User $user){
+    public function removeRoleAction(User $user)
+    {
         $user->setRoles(['ROLE_READER']);
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
 
-        return $this->redirectToRoute('user_info',['id' =>$user->getId()]);
+        return $this->redirectToRoute('user_info', ['id' => $user->getId()]);
     }
 
     /**
      * @Route("/admin/tag/new", name="add_tag")
      */
-    public function addTagAction(Request $request){
+    public function addTagAction(Request $request)
+    {
         $tag = new Tag();
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
@@ -120,11 +123,11 @@ class AdminController extends AbstractController
             $em->persist($tag);
             $em->flush();
 
-        return $this->redirectToRoute('admin_home');
+            return $this->redirectToRoute('admin_home');
         }
 
-        return $this->render('AdminController/addTag.html.twig',[
-            'form' => $form->createView()
+        return $this->render('AdminController/addTag.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

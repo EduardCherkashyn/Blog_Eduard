@@ -20,14 +20,13 @@ class UserLikeRepository extends ServiceEntityRepository
         parent::__construct($registry, UserLike::class);
     }
 
-
     public function countLikes(Article $article)
     {
         return $this->createQueryBuilder('ul')
             ->andWhere('ul.article = :article')
             ->setParameter('article', $article)
             ->andWhere('ul.likeOn = :val')
-            ->setParameter('val',true)
+            ->setParameter('val', true)
             ->select('COUNT(ul)')
             ->getQuery()
             ->getSingleScalarResult();

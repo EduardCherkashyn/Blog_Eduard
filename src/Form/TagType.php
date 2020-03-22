@@ -13,10 +13,10 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('tag',TextType::class,[
+            ->add('tag', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Enter Tag Name'
-                ]
+                    'placeholder' => 'Enter Tag Name',
+                ],
             ])
         ;
     }

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: ed
  * Date: 10.01.2019
- * Time: 19:28
+ * Time: 19:28.
  */
 
 namespace App\Exception;
-
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 

@@ -2,9 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Article;
 use App\Entity\User;
-use App\Entity\UserLike;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -22,7 +20,6 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-
     /**
      * @return Query
      */
@@ -32,6 +29,4 @@ class UserRepository extends ServiceEntityRepository
             ->orderBy('a.id', 'DESC')
             ->getQuery();
     }
-
-
 }

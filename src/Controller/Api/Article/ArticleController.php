@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: eduardcherkashyn
  * Date: 1/8/19
- * Time: 22:19
+ * Time: 22:19.
  */
 
 namespace App\Controller\Api\Article;
@@ -25,8 +25,6 @@ use OpenApi\Annotations as OA;
  *   version="1.0.0",
  * )
  */
-
-
 class ArticleController extends AbstractController
 {
     /**
@@ -83,7 +81,7 @@ class ArticleController extends AbstractController
         }
 
         /** @var Article $article */
-        $article = $serializer->deserialize($request->getContent(),Article::class,'json');
+        $article = $serializer->deserialize($request->getContent(), Article::class, 'json');
 
         $errors = $validator->validate($article);
 
@@ -106,10 +104,11 @@ class ArticleController extends AbstractController
      *   )
      * )
      */
-    public function showAllArticleAction(PaginatorInterface $paginator,Request $request)
+    public function showAllArticleAction(PaginatorInterface $paginator, Request $request)
     {
         $query = $this->getDoctrine()->getRepository(Article::class)->findByApproved();
-        $articles = $paginator->paginate($query,$request->query->getInt('page', 1),3);
+        $articles = $paginator->paginate($query, $request->query->getInt('page', 1), 3);
+
         return $this->json($articles);
     }
 
@@ -124,6 +123,7 @@ class ArticleController extends AbstractController
     public function showAllCommentsAction()
     {
         $comments = $this->getDoctrine()->getRepository(Comment::class)->findAll();
+
         return $this->json($comments);
     }
 }

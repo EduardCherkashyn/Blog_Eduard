@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: ed
  * Date: 10.01.2019
- * Time: 19:28
+ * Time: 19:28.
  */
 
 namespace App\Listener;
-
 
 use App\Exception\JsonHttpException;
 use Psr\Log\LoggerInterface;
@@ -32,7 +31,7 @@ class JsonExceptionListener
                 'error' => [
                     'code' => $exception->getStatusCode(),
                     'message' => $exception->getMessage(),
-                ]
+                ],
             ];
             if (($data = $exception->getData())) {
                 $errorData['error']['fields'] = $data;

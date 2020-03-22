@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use OpenApi\Annotations as OA;
 
-
 /**
  * @ORM\Table(name="Article")
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -80,7 +79,6 @@ class Article implements \JsonSerializable
     {
         return $this->id;
     }
-
 
     public function getName(): ?string
     {
@@ -226,9 +224,7 @@ class Article implements \JsonSerializable
             'id' => $this->getId(),
             'user' => $this->getUser()->getId(),
             'name' => $this->getName(),
-            'text' => $this->getText()
+            'text' => $this->getText(),
         ];
     }
-
-
 }

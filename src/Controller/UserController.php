@@ -22,6 +22,7 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/registration", name="registration")
+     *
      * @throws \Exception
      */
     public function registrationAction(Request $request, EventDispatcherInterface $dispatcher)
@@ -53,7 +54,7 @@ class UserController extends AbstractController
         $admin = $checkIfAdmin->index($user);
         $permmison = $permissionForAddingArticleService->ifAdminRole($user);
 
-        return $this->render('UserController/profile.html.twig',[
+        return $this->render('UserController/profile.html.twig', [
             'user' => $user,
             'admin' => $admin,
             'link' => $permmison,

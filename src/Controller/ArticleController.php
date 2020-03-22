@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-
 class ArticleController extends AbstractController
 {
     /**
@@ -71,9 +70,8 @@ class ArticleController extends AbstractController
         return $this->render('ArticleController/articles.html.twig', [
             'articles' => $pagination,
             'user' => $user,
-            'tags' => $tags
+            'tags' => $tags,
         ]);
-
     }
 
     /**
@@ -84,19 +82,18 @@ class ArticleController extends AbstractController
         return $this->render('ArticleController/homepage.html.twig');
     }
 
-
     /**
      * @Route("/reader/articles/comment/{id}", name="article_comment")
      */
     public function showOneAction(Request $request, Article $article)
     {
         $comment = new Comment();
-        /**@var User $user */
+        /** @var User $user */
         $user = $this->getUser();
         $amountOfLikes = $this->getDoctrine()->getRepository(UserLike::class)->countLikes($article);
-        $form = $this->createForm(CommentType::class,$comment);
+        $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user->addComment($comment);
             $article->addComment($comment);
             $comment->setDate(new\DateTime('now'));
@@ -107,11 +104,10 @@ class ArticleController extends AbstractController
             $em->flush();
         }
 
-        return $this->render('ArticleController/articleComment.html.twig',[
+        return $this->render('ArticleController/articleComment.html.twig', [
             'article' => $article,
             'comment_form' => $form->createView(),
             'likes' => $amountOfLikes,
-
         ]);
     }
 
@@ -129,7 +125,7 @@ class ArticleController extends AbstractController
         $em->refresh($article);
         $amountOfLikes = $this->getDoctrine()->getRepository(UserLike::class)->countLikes($article);
 
-        return new JsonResponse(['likes' => $amountOfLikes ]);
+        return new JsonResponse(['likes' => $amountOfLikes]);
     }
 
     /**
@@ -150,10 +146,9 @@ class ArticleController extends AbstractController
      */
     public function categoryShowAction($category, Request $request, PaginatorInterface $paginator, GetAllArtFilterTags $getAllArtFilterTags)
     {
-
         $tags2 = $this->getDoctrine()->getRepository(Tag::class)->findAll();
         $tags = $this->getDoctrine()->getRepository(Tag::class)->findBy([
-            'tag' => $category
+            'tag' => $category,
             ]);
         $query = $getAllArtFilterTags->index($tags);
         $pagination = $paginator->paginate(
@@ -164,8 +159,7 @@ class ArticleController extends AbstractController
 
         return $this->render('ArticleController/articles.html.twig', [
             'articles' => $pagination,
-            'tags' => $tags2
+            'tags' => $tags2,
         ]);
-
     }
 }

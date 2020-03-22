@@ -95,8 +95,7 @@ class Comment implements \JsonSerializable
             'id' => $this->getId(),
             'comment' => $this->getComment(),
             'date' => $this->getDate(),
-            'user' => $this->getUser()->getId()
+            'user' => $this->getUser()->getId(),
         ];
-
     }
 }

@@ -24,7 +24,7 @@ class SecurityController extends AbstractController
         $form = $this->createForm(LoginType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            }
+        }
 
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
@@ -39,11 +39,11 @@ class SecurityController extends AbstractController
     public function postLoginRedirectAction()
     {
         /**
-         * @var User $user
+         * @var User
          */
         $user = $this->getUser();
         $roles = $user->getRoles();
-        if (in_array('ROLE_ADMIN',$roles)) {
+        if (in_array('ROLE_ADMIN', $roles)) {
             return $this->redirectToRoute('admin_home');
         } else {
             return $this->redirectToRoute('show_articles');
